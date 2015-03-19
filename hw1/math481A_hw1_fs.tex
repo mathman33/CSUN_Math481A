@@ -1,0 +1,400 @@
+\documentclass[12pt]{article}
+
+\usepackage{amssymb, amsmath, amsfonts}
+\usepackage{amsthm}
+\usepackage{moreverb}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{graphics}
+\usepackage{color}
+\usepackage{array}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{textcomp}
+\usepackage{alltt}
+\usepackage{mathtools}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\newcommand{\suchthat}{\, \mid \,}
+\allowdisplaybreaks
+
+\begin{document}
+
+{\bf MATH 481A \hfill Numerical Analysis \ \ \ \ \ \hfill Spring 2015}
+
+\title{\bf Hw \# 1 Solutions}
+\author{\bf Sam Fleischer}
+\date{\bf Thurs. Jan. 29, 2015}
+
+{\let\newpage\relax\maketitle}
+\maketitle
+\tableofcontents
+\pagebreak
+
+\section*{Section 1.2 \# 1}
+\addcontentsline{toc}{section}{Section 1.2 \# 1}
+{\it Determine $A_0$, $A_1$, and $A_2$ such that the function $y(x) = A_0 + A_1x + A_2x^2$ and the function $f(x) = \dfrac{1}{1 + x}$ have each of the following sets of properties in common:}
+
+\begin{enumerate}[\ \ (a)\ \ ]
+
+\item {\it $f(0)$, $f(\frac{1}{2})$, $f(1)$}
+\addcontentsline{toc}{subsection}{(a)}
+\begin{align*}
+f(0) &= 1 = y(0) = A_0 \\
+f(\tfrac{1}{2}) &= \tfrac{2}{3} = y(\tfrac{1}{2}) = A_0 + \tfrac{1}{2}A_1 + \tfrac{1}{4}A_2 \\
+f(1) &= \tfrac{1}{2} = y(1) = A_0 + A_1 + A_2 \\
+A_0 &= 1 \implies -\tfrac{2}{3} - \tfrac{1}{2}A_2 = A_1 = -\tfrac{1}{2} - A_2 \implies A_2 = \tfrac{1}{3} \implies A_1 = -\tfrac{5}{6}
+\end{align*}
+Therefore, \boxed{y(x) = 1 - \frac{5}{6}x + \frac{1}{3}x^2}
+
+\item {\it $f(0)$, $f'(0)$, $f''(0)$}
+\addcontentsline{toc}{subsection}{(b)}
+\begin{align*}
+f(0) &= 1 = y(0) = A_0 \\
+f'(0) &= -1 = y'(0) = A_1 \\
+f''(0) &= 2 = y''(0) = 2A_2 \implies A_2 = 1
+\end{align*}
+Therefore, \boxed{y(x) = 1 - x + x^2}
+
+\item {\it $f(\tfrac{1}{2})$, $f'(\tfrac{1}{2})$, $f''(\tfrac{1}{2})$}
+\addcontentsline{toc}{subsection}{(c)}
+\begin{align*}
+f(\tfrac{1}{2}) &= \tfrac{2}{3} = y(\tfrac{1}{2}) = A_0 + \tfrac{1}{2}A_1 + \tfrac{1}{4}A_2 \\
+f'(\tfrac{1}{2}) &= -\tfrac{4}{9} = y'(\tfrac{1}{2}) = A_1 + A_2 \\
+f''(\tfrac{1}{2}) &= \tfrac{16}{27} = y''(\frac{1}{2}) = 2A_2 \implies A_2 = \tfrac{8}{27} \implies A_1 = -\tfrac{20}{27} \implies A_0 = \tfrac{26}{27}
+\end{align*}
+Therefore, \boxed{y(x) = \frac{26}{27} - \frac{20}{27}x + \frac{8}{27}x^2}
+
+\end{enumerate}
+
+\pagebreak
+\section*{Section 1.2 \# 4}
+\addcontentsline{toc}{section}{Section 1.2 \# 4}
+{\it Determine that member $y(x)$ of the set of all linear functions (i.e. $y(x) = a + bx$) which best approximates the function $f(x) = x^2$ over $[0,1]$ in the sense that each of the following quantities is minimized:}
+
+\begin{enumerate}[\ \ (a)\ \ ]
+
+\item {\it $\int_0^1{[f(x) - y(x)]^2} \ dx$}
+\addcontentsline{toc}{subsection}{(a)}
+\begin{align*}
+\hat{f}(a,b) &= \textstyle\int_0^1 [f(x) - y(x)]^2 \ dx \\
+&= \textstyle\int_0^1 [x^2 - bx - a]^2 \ dx \\
+&= \textstyle\int_0^1 x^4 - 2bx^3 + (b^2 - 2a)x^2 + 2abx + a^2 \ dx \\
+&= \left(\tfrac{1}{5}x^5 -\tfrac{b}{2}x^4 + \tfrac{b^2 - 2a}{3}x^3 + abx^2 + a^2x\right)_0^1 \\
+&= \tfrac{1}{5} - \tfrac{b}{2} + \tfrac{b^2 - 2a}{3} + ab + a^2
+\end{align*}
+
+To find the critical points of $\hat{f}$, we first find where $\hat{f}_{a}$ and $\hat{f}_{b}$ equal zero.
+\begin{align*}
+\hat{f}_{a} &= -\tfrac{2}{3} + b + 2a = 0 \implies b = \tfrac{2}{3} - 2a \\
+\hat{f}_{b} &= -\tfrac{1}{2} + \tfrac{2}{3}b + a \implies a = \tfrac{1}{2} - \tfrac{2}{3}b \\ 
+\implies a &= -\tfrac{1}{6} \implies b = 1
+\end{align*}
+
+$(a,b) = (-\frac{1}{6}, 1)$ is a minimum of $\hat{f}$ if:
+\begin{enumerate}[\ \ (I)\ \ ]
+\item $\hat{f}_{aa}(-\frac{1}{6}, 1)\hat{f}_{bb}(-\frac{1}{6}, 1) - \left[\hat{f}_{ab}(-\frac{1}{6}, 1)\right]^2 > 0$, and
+\item $\hat{f}_{aa}(-\frac{1}{6}, 1) > 0$
+\end{enumerate}
+
+Since $\hat{f}_{aa} = 2$, $\hat{f}_{bb} = \tfrac{2}{3}$, and $\hat{f}_{ab} = 1$,
+\begin{align*}
+\hat{f}_{aa}(-\frac{1}{6}, 1)\hat{f}_{bb}(-\frac{1}{6}, 1) - \left[\hat{f}_{ab}(-\frac{1}{6}, 1)\right]^2 = (2)(\tfrac{2}{3}) - 1^2 &= \tfrac{1}{3} > 0 \text{, and } \\
+\hat{f}_{aa}(-\tfrac{1}{6}, 1) &= 2 > 0
+\end{align*}
+
+Thus $(a,b) = (-\frac{1}{6}, 1)$ is a minimum of $\hat{f}$, and \boxed{y(x) = -\frac{1}{6} + x}
+
+\item {\it $[f(0) - y(0)]^2 + [f(\frac{1}{2}) - y(\frac{1}{2})]^2 + [f(1) - y(1)]^2$}
+\addcontentsline{toc}{subsection}{(b)}
+\begin{align*}
+\hat{f}(a,b) &= [f(0) - y(0)]^2 + [f(\frac{1}{2}) - y(\frac{1}{2})]^2 + [f(1) - y(1)]^2 \\
+&= (0 - a)^2 + (\tfrac{1}{4} - a - \tfrac{1}{2}b)^2 + (1 - a - b)^2 \\
+&= 3a^2 + \tfrac{5}{4}b^2 + 3ab -\tfrac{5}{2}a - \tfrac{9}{4}b + \tfrac{17}{16}
+\end{align*}
+
+To find the critical points of $\hat{f}$, we first find where $\hat{f}_{a}$ and $\hat{f}_{b}$ equal zero.
+\begin{align*}
+\hat{f}_{a} &= 6a + 3b - \tfrac{5}{2} = 0 \text{, and } \\
+\hat{f}_{b} &= \tfrac{5}{2}b + 3a - \tfrac{9}{4} = 0 \\
+\implies a &= -\tfrac{1}{12} \implies b = 1
+\end{align*}
+
+As above, $(a,b) = (-\frac{1}{12}, 1)$ is a minimum of $\hat{f}$ if:
+\begin{enumerate}[\ \ (I)\ \ ]
+\item $\hat{f}_{aa}(-\frac{1}{12}, 1)\hat{f}_{bb}(-\frac{1}{12}, 1) - \left[\hat{f}_{ab}(-\frac{1}{12}, 1)\right]^2 > 0$, and
+\item $\hat{f}_{aa}(-\frac{1}{12}, 1) > 0$
+\end{enumerate}
+
+Since $\hat{f}_{aa} = 6$, $\hat{f}_{bb} = \tfrac{5}{2}$, and $\hat{f}_{ab} = 3$,
+\begin{align*}
+\hat{f}_{aa}(-\frac{1}{12}, 1)\hat{f}_{bb}(-\frac{1}{12}, 1) - \left[\hat{f}_{ab}(-\frac{1}{12}, 1)\right]^2 = (6)(\tfrac{5}{2}) - 3^2 &= 6 > 0 \text{, and } \\
+\hat{f}_{aa}(-\frac{1}{12}, 1) &= 6 > 0
+\end{align*}
+
+Thus $(a,b) = (-\tfrac{1}{12}, 1)$ is a minimum of $\hat{f}$, and \boxed{y(x) = -\frac{1}{12} + x}
+
+\item {\it $\max\limits_{x\in[0,1]}|f(x) - y(x)|$}
+\addcontentsline{toc}{subsection}{(c)}
+\begin{align*}
+\hat{f}(a,b) &= \max\limits_{x\in[0,1]}|f(x) - y(x)| \\
+&= \max\limits_{x\in[0,1]}|x^2 - bx - a| \\
+\end{align*}
+
+Since $g(x) = x^2 - bx - a$ is an upward facing parabola with a leading coefficient of $1$, the endpoints of the parabola are potentially maximums on $[0,1]$.  For $|g(x)|$, the vertex $(v, g(v))$ becomes a potential maximum if $g(v) < 0$ because it is reflected over the $x$-axis, making it at least a local maximum.  To minimize $\max\limits_{x\in[0,1]}|g(x)|$, $g(x)$ must have a vertex at $(\frac{1}{2}, -\frac{1}{8})$.  This forces the max of $|g(x)|$ to be $\frac{1}{8}$ at $x\in\{0, \frac{1}{2}, 1\}$.  Notice the maximum is at both endpoints and at the reflected vertex.  We find $b$ by noting that the $x$-coordinate of the vertex of a parabola of the form $\alpha x^2 + \beta x + \gamma$ is $-\frac{\beta}{2\alpha}$.
+\begin{align*}
+\tfrac{b}{2} = \tfrac{1}{2} &\implies b = 1 \\
+g(0) = - a = \tfrac{1}{8} &\implies a = -\tfrac{1}{8}
+\end{align*}
+
+Thus \boxed{y(x) = -\frac{1}{8} + x}
+
+\end{enumerate}
+
+\section*{Section 1.2 \# 5}
+\addcontentsline{toc}{section}{Section 1.2 \# 5}
+{\it Determine $c_1$, $c_2$, and $c_3$ in such a way that the formula}
+\begin{align*}
+\int_{-1}^{1}{w(x)f(x)}dx = c_1f(-1) + c_2f(0) + c_3f(1)
+\end{align*}
+{\it yields an exact result when $f(x)$ is $1$, $x$, $x^2$, and $x^3$, and hence also when $f(x)$ is  any linear combination of those functions, for each of the following weighting functions:}
+
+\begin{enumerate}[\ \ (a)\ \ ]
+
+\item {\it $w(x) = 1$}
+\addcontentsline{toc}{subsection}{(a)}
+
+For $f(x) = 1$, 
+\begin{align*}
+\int_{-1}^{1}dx = c_1 + c_2 + c_3 = 2
+\end{align*}
+
+For $f(x) = x$, 
+\begin{align*}
+\int_{-1}^{1}x \ dx = -c_1 + c_3 = 0 \implies c_1 = c_3
+\end{align*}
+
+For $f(x) = x^2$, 
+\begin{align*}
+\int_{-1}^{1}x^2 \ dx = c_1 + c_3 = \frac{2}{3} \implies c_1 = \frac{1}{3} \implies c_3 = \frac{1}{3}
+\end{align*}
+
+For $f(x) = x^3$, 
+\begin{align*}
+\int_{-1}^{1}x^3 \ dx = -c_1 + c_3 = 0 \implies c_1 = c_3
+\end{align*}
+
+Thus $c_2 = \frac{4}{3}$.  Thus, if $f \in \{f(x) = a_0 + a_1x + a_2x^2 + a_3x^3 \suchthat a_1, a_2, a_3, a_4 \in \mathbb R \}$, then \boxed{\int_{-1}^{1}f(x) \ dx = \frac{1}{3}f(-1) + \frac{4}{3}f(0) + \frac{1}{3}f(1)}
+
+\end{enumerate}
+
+\pagebreak
+\section*{Section 1.3 \# 8}
+\addcontentsline{toc}{section}{Section 1.3 \# 8}
+
+{\it Suppose that the alternating series}
+\begin{align*}
+S = v_0 - v_1 + v_2 - v_3 + \dots = \sum_{k=0}^\infty(-1)^kv_k
+\end{align*}
+{\it converges.  Show that the series}
+\begin{align*}
+\tfrac{1}{2}v_0 + \tfrac{1}{2}(v_0 - v_1) - \tfrac{1}{2}(v_1 - v_2) + \dots = \tfrac{1}{2}v_0 + \tfrac{1}{2}\sum_{k=0}^\infty(-1)^k(v_k - v_{k+1})
+\end{align*}
+{\it converges to the same sum.} \\
+
+\noindent Since $\sum{(a_i + b_i)} = \sum{a_i} + \sum{b_i}$,
+\begin{align*}
+\tfrac{1}{2}v_0 + \tfrac{1}{2}\sum_{k=0}^\infty(-1)^k(v_k - v_{k+1}) &= \tfrac{1}{2}v_0 + \tfrac{1}{2}\sum_{k=0}^\infty(-1)^k(v_k) - \tfrac{1}{2}\sum_{k=0}^\infty(-1)^k(v_{k+1}) \\
+&= \tfrac{1}{2}\sum_{k=0}^\infty(-1)^k(v_k) + \tfrac{1}{2}v_0 + \tfrac{1}{2}\sum_{k=0}^\infty(-1)^{k+1}v_{k+1} \\
+&= \tfrac{1}{2}S + \tfrac{1}{2}v_0 + \tfrac{1}{2}\sum_{k=1}^{\infty}(-1)^kv_{k} \\
+&= \tfrac{1}{2}S + \tfrac{1}{2}\sum_{k=0}^\infty(-1)^kv_k \\
+&=\tfrac{1}{2}S + \tfrac{1}{2}S \\
+&= S
+\end{align*}
+Thus \boxed{\sum_{k=0}^\infty(-1)^kv_k = S = \frac{1}{2}v_0 + \frac{1}{2}\sum_{k=0}^\infty (-1)^k(v_k - v_{k+1})}
+
+\pagebreak
+\section*{Section 1.3 \# 9}
+\addcontentsline{toc}{section}{Section 1.3 \# 9}
+{\it Use the transformation of problem $8$ to show that}
+\begin{align*}
+S &\equiv 1 - \tfrac{1}{2} + \tfrac{1}{3} - \tfrac{1}{4} + \dots \equiv \sum_{k=0}^\infty \frac{(-1)^k}{k+1} \\
+&= \frac{1}{2} + \frac{1}{2}\sum_{k=0}^\infty \frac{(-1)^k}{(k+1)(k+2)} \\
+&= \frac{5}{8} + \frac{1}{2}\sum_{k=0}^\infty \frac{(-1)^k}{(k+1)(k+2)(k+3)} \\
+&= \frac{2}{3} + \frac{3}{4}\sum_{k=0}^\infty \frac{(-1)^k}{(k+1)(k+2)(k+3)(k+4)} = \dots
+\end{align*}
+{\it Show that the retention of five terms in the last sum given ensures that $0.69306 < S < 0.69330$ or that $S \approx 0.69318$ with a maximum error of $\pm 12$ units in the place of the fifth digit.  About how many terms of the original series would be needed to ensure this accuracy? (The true value is $S = \log{2} \doteq 0.69315$)} \\
+
+\noindent To use the result from problem $8$, note the definition of $S$ implies $v_k$ is initially $\frac{1}{k+1}$.  Thus
+\begin{align*}
+\sum_{k=0}^\infty(-1)^k\frac{1}{k+1} = S &= \frac{1}{2}(1) + \frac{1}{2}\sum_{k=0}^\infty(-1)^k\left(\frac{1}{k+1} - \frac{1}{k+2}\right) \\
+&= \frac{1}{2} + \frac{1}{2}\sum_{k=0}^\infty(-1)^k\frac{1}{(k+1)(k+2)}
+\end{align*}
+Since we know this converges, we can use the result of problem $8$ again but with $v_k$ equal to $\frac{1}{(k+1)(k+2)}$, and then again with $v_k$ equal to $\frac{1}{(k+1)(k+2)(k+3)}$. Thus
+\begin{align*}
+S &= \frac{1}{2} + \frac{1}{2}\sum_{k=0}^\infty(-1)^k\frac{1}{(k+1)(k+2)} \\
+&= \frac{1}{2} + \frac{1}{2}\left[\frac{1}{2}\left(\frac{1}{2}\right) + \frac{1}{2}\sum_{k=0}^\infty(-1)^k\left(\frac{1}{(k+1)(k+2)} - \frac{1}{(k+2)(k+3)}\right)\right] \\
+&= \frac{5}{8} + \frac{1}{2}\sum_{k=0}^\infty(-1)^k\frac{1}{(k+1)(k+2)(k+3)} \\
+&= \frac{5}{8} + \frac{1}{2}\left[\frac{1}{2}\left(\frac{1}{6}\right) + \frac{1}{2}\sum_{k=0}^\infty(-1)^k\left(\frac{1}{(k+1)(k+2)(k+3)} - \frac{1}{(k+2)(k+3)(k+4)}\right)\right] \\
+&= \frac{2}{3} + \frac{3}{4}\sum_{k=0}^\infty(-1)^k\frac{1}{(k+1)(k+2)(k+3)(k+4)} = \dots
+\end{align*}
+
+\noindent Let $S_n$ denote the sum of the first $n+1$ terms (Since we start counting from $n=0$).  The fifth ($n=4$) and sixth ($n=5$) partial sums are
+\begin{align*}
+S_4 &= \frac{2}{3} + \frac{3}{4}\left(\frac{1}{24} - \frac{1}{120} + \frac{1}{360} - \frac{1}{840} + \frac{1}{1680}\right) \approx 0.693304, \ \ \ \ \text{and} \\ 
+S_5 &= S_4 + \frac{3}{4}\left(-\frac{1}{3024}\right) \approx 0.693056
+\end{align*}
+
+\noindent $S$ is an alternating convergent series and $S_5 < S_4$ imply $0.693056 < S < 0.693304$.  Also, alternating convergent series have the property that if $S = S_n + E_n$ where $S_n$ is the $n^{\text{th}}$ partial sum and $E_n$ is the remaining error, then $|E_n| < |a_{n+1}|$ where $a_{n+1}$ is the first `neglected' term not included in the $n^{\text{th}}$ partial sum (i.e. the $(n + 1)^{\text{st}}$ term in the sequence).  Thus
+\begin{align*}
+|E_4| &< \left|\frac{3}{4}\left(-\frac{1}{3024}\right)\right| \approx 0.000248, \ \ \ \ \text{and} \\ 
+|E_5| &< \left|\frac{3}{4}\left(\frac{1}{5040}\right)\right| \approx 0.0001488
+\end{align*}
+
+\noindent However, we can further bound the error by nothing that alternating convergent series have the following property: $|S - S_n| < \dfrac{1}{2}|S_n - S_{n-1}|$.  Thus
+\begin{align*}
+E_5 = |S - S_5| < \frac{1}{2}|S_5 - S_4| = \frac{1}{2}\left|\frac{3}{4}\left(-\frac{1}{3024}\right)\right| \approx 0.000124
+\end{align*}
+
+\noindent Thus $S_5$ is accurate to $12$ digits in the place of the fifth digit.  Furthermore, since the original series is the alternating harmonic series, we take the reciprocal of the upper bound of the error, $|E_5|$, to get an estimate of how many terms are needed in the original series to achieve the same accuracy.  Thus $\dfrac{1}{0.000124} \approx 8065$ terms are needed in the original series.
+
+\pagebreak
+\section*{Sections 1.4 and 1.5 \# 18}
+\addcontentsline{toc}{section}{Sections 1.4 and 1.5 \# 18}
+{\it Show that the number $(2.46)^{\frac{1}{64}}$ is known within less than one unit in the place of its \rm fifth \it significant digit if $2.46$ is known only to be correctly rounded to three digits.} \\
+
+\noindent If $\overline{N} = 2.46$ is known to three digits, then $E(\overline{N}) \leq 5 \times 10^{r - n} = 5 \times 10^{0 - 3} = 5 \times 10^{-3} = 0.005$ where $r$ is given by $N = N^*\times 10^r$ with $1\leq N^* < 10$ and $n$ is the number of significant figures for which $\overline{N}$ is accurate.  Let $f(x) = x^{\frac{1}{64}}= \sqrt[64]{x}$.  Then for $x > 0$, f is differentiable, and $f'(x) = \dfrac{1}{64x^{\frac{63}{64}}}$.  Since $f'(x)$ is a decreasing and positive function on $(0, \infty)$, then for $\xi \in [\overline{N} - E(\overline{N}), \overline{N} + E(\overline{N})]$, $|f'(\xi)|$ is maximized at $\overline{N} - E(\overline{N})$. Thus,
+\begin{align*}
+|E(f(\overline{N}))| &\leq |f'(\xi)|_{\text{max}}\cdot |E(\overline{N})| \\
+&\leq |f'(\overline{N} - E(\overline{N}))| \cdot |E(\overline{N})| \\
+&= |f'(2.46 - 5\times10^{-3})| \cdot 5 \times 10^{-3} \\
+&\approx 3.23\times 10^{-5} = 0.0000323
+\end{align*}
+
+\noindent Thus $(2.46)^{\frac{1}{64}} \approx 1.01416$ is known within less than four units in its {\it sixth} significant digit, and certainly within less than one unit in its {\it fifth} significant digit.
+
+\pagebreak
+\section*{Section 1.6 \# 24}
+\addcontentsline{toc}{section}{Section 1.6 \# 24}
+{\it Suppose that calculations are to be made in four-digit floating point arithmetic, assuming a double-precision accumulator, but supposing that the computer rounds the number resulting from each operation (addition, multiplication, etc.) to four digits before effecting a subsequent operation on that number.  If} 
+\begin{align*}
+x_1 = 0.1234 \times 10^3 \ \ \ \ \ \ x_2 = 0.3456 \times 10^2 \ \ \ \ \ \ x_3 = 0.5678 \times 10^1
+\end{align*}
+{\it are exact numbers, evaluate the results of each of the following machine operations and, in each case, determine the absolute and relative errors associated with the result.} \\
+
+\begin{enumerate}[\ \ (a)\ \ ]
+\item $(x_1 \oplus x_2) \oplus x_3$
+\addcontentsline{toc}{subsection}{(a)}
+\begin{align*}
+(x_1 + x_2) &= 0.1234 \times 10^3 + 0.3456 \times 10^2 \\
+&= 0.1234 \times 10^3 + 0.03456 \times 10^3 \\
+&= 0.15796 \times 10^3 \\
+\implies (x_1 \oplus x_2) &= 0.1580 \times 10^3 \\
+\implies (x_1 \oplus x_2) + x_3 &= 0.1580 \times 10^3 + 0.5678 \times 10^1 \\
+&= 0.1580 \times 10^3 + 0.005678 \times 10^3 \\
+&= 0.163678 \times 10^3 \\
+\implies (x_1 \oplus x_2) \oplus x_3 &= \boxed{0.1637 \times 10^3} \\
+(x_1 + x_2) + x_3 &= 0.15796 \times 10^3 + 0.5678 \times 10^1 \\ 
+&= 0.15796 \times 10^3 + 0.005678 \times 10^3 \\
+&= 0.163638 \times 10^3 \\
+\implies E &= (0.163638 \times 10^3) - (0.1637 \times 10^3) = -0.000062 \times 10^{3} \\
+&= \boxed{-0.62 \times 10^{-1}} \\
+\implies R &= \frac{-0.62 \times 10^{-1}}{0.163638 \times 10^3} \approx -0.0003788851 \\
+&\leq \boxed{-0.389 \times 10^{-3}}
+\end{align*}
+
+\item $(x_3 \oplus x_2) \oplus x_1$
+\addcontentsline{toc}{subsection}{(b)}
+\begin{align*}
+(x_3 + x_2) &= 0.5678 \times 10^1 + 0.3456 \times 10^2 \\
+&= 0.05678 \times 10^2 + 0.3456 \times 10^2 \\
+&= 0.40238 \times 10^2 \\
+\implies (x_3 \oplus x_2) &= 0.4024 \times 10^2 \\
+\implies (x_3 \oplus x_2) + x_1 &= 0.4024 \times 10^2 + 0.1234 \times 10^3 \\
+&= 0.04024 \times 10^3 + 0.1234 \times 10^3 \\
+&= 0.16364 \times 10^3 \\
+\implies (x_3 \oplus x_2) \oplus x_1 &= \boxed{0.1636 \times 10^3} \\
+(x_3 + x_2) + x_1 &= (x_1 + x_2) + x_3 = 0.163638 \times 10^3 \\
+\implies E &= (0.163638 \times 10^3) - (0.1636 \times 10^3) = 0.000038 \times 10^3 \\
+&= \boxed{-0.38 \times 10^{-1}} \\
+\implies R &= \frac{0.38 \times 10^{-1}}{0.163638 \times 10^3} \approx 0.0002322199 \\
+&\leq \boxed{-0.233 \times 10^{-3}}
+\end{align*}
+
+\item $(x_1 \odot x_2) \odot x_3$
+\addcontentsline{toc}{subsection}{(c)}
+\begin{align*}
+(x_1 \cdot x_2) &= 0.1234 \times 10^3 + 0.3456 \times 10^2 \\
+&= 0.4264704 \times 10^4 \\
+\implies (x_1 \odot x_2) &= 0.4265 \times 10^4 \\
+\implies (x_1 \odot x_2) \cdot x_3 &= 0.4265 \times 10^4 \cdot 0.5678 \times 10^1 \\
+&= 0.24216670 \times 10^5 \\
+\implies (x_1 \odot x_2) \odot x_3 &= \boxed{0.2422 \times 10^5} \\
+(x_1 \cdot x_2) \cdot x_3 &= (0.4264704 \times 10^4) \cdot (0.5678 \times 10^1) = 0.24214989312 \times 10^5 \\
+\implies E &= (0.24214989312 \times 10^5) - (0.2422 \times 10^5) = -0.00005010688 \times 10^5 \\
+&= \boxed{-0.5010688 \times 10^{1}} \\
+\implies R &= \frac{-0.5010688 \times 10^{1}}{0.24214989312 \times 10^5} \approx -0.000206925 \\
+&\leq \boxed{-0.207 \times 10^{-3}}
+\end{align*}
+
+\end{enumerate}
+
+\pagebreak
+\section*{Additional Problem}
+\addcontentsline{toc}{section}{Additional Problem}
+{\it Find the Taylor Series of the function $f(x,y)$ around the point $(x_0, y_0)$ up to third order terms.} \\
+
+\noindent For $f \in C^{\infty}\times C^{\infty}$, the Taylor Series of $f$ around $(x_0, y_0)$ is
+\begin{align*}
+f(x, y) = \ &\frac{1}{0!}\left[\binom{0}{0}(x - x_0)^{0}(y - y_0)^{0}f(x_0, y_0)\right] \\
++ \ &\frac{1}{1!}\left[\binom{1}{0}(x - x_0)^{1}(y - y_0)^{0}f_x(x_0, y_0) + \binom{1}{1}(x - x_0)^{0}(y - y_0)^{1}f_y(x_0, y_0)\right] \\
++ \ &\frac{1}{2!}\Bigg[\binom{2}{0}(x - x_0)^{2}(y - y_0)^{0}f_{xx}(x_0, y_0) + \binom{2}{1}(x - x_0)^{1}(y - y_0)^{1}f_{xy}(x_0, y_0) \\
+& \ \ \ \ \ \ \ \ + \ \binom{2}{2}(x - x_0)^{0}(y - y_0)^{2}f_{yy}(x_0, y_0)\Bigg] \\
++ \ &\frac{1}{3!}\Bigg[\binom{3}{0}(x - x_0)^{3}(y - y_0)^{0}f_{xxx}(x_0, y_0) + \binom{3}{1}(x - x_0)^{2}(y - y_0)^{1}f_{xxy}(x_0, y_0) \\
+& \ \ \ \ \ \ \ \ + \ \binom{3}{2}(x - x_0)^{1}(y - y_0)^{2}f_{xyy}(x_0, y_0) + \binom{3}{3}(x - x_0)^{0}(y - y_0)^{3}f_{yyy}(x_0, y_0)\Bigg] \\
++ &\dots
+\end{align*}
+
+\noindent Thus the general formula for the Taylor Series of $f \in C^{\infty}\times C^{\infty}$ is 
+\begin{align*}
+f(x, y) = \sum_{n=0}^{\infty}\frac{1}{n!}\left[\sum_{k=0}^{n}\binom{k}{n}(x - x_0)^{n - k}(y - y_0)^{k}\frac{\partial^{n} f}{\partial x^{n - k} \partial y^{k}}(x_0, y_0)\right]
+\end{align*}
+
+%\pagebreak
+%\begin{thebibliography}{99}
+%
+%\bibitem{Abrams1997b}
+%Abrams, P.~A. and Matsuda, H.
+%Prey Adaptation as a Cause of Predator-Prey Cycles.
+%\emph{Evolution}
+%1997, 51:1742-1750.
+%
+%\bibitem{Chavez2001}
+%Brauer, F., Castillo-Chavez, C.
+%Mathematical Models in Population Biology and Epidemiology.
+%Springer,
+%2011. Print.
+%
+%\bibitem{Boyce2012}
+%Boyce, W. E., and DiPrima, R. C.
+%Elementary Differential Equations and Boundary Value Problems %10\textsuperscript{th} ed.
+%Wiley Global Education
+%2012. Print.
+%
+%\bibitem{Saloniemi1993}
+%Saloniemi, I.
+%A Coevolutionary Predator-Prey Model with Quantitative Characters.
+%\emph{American Naturalist}
+%1993, 141:880-896.
+%
+%\bibitem{Schreiber2011}
+%Schreiber, S.~J., B$\ddot{\mbox{u}}$rger,  R., and Bolnick,  D.~I.
+%The Community Effects of Phenotypic and Genetic Variation within a Predator %Population.
+%\emph{Ecology}
+%2011,  92(8):526-543. 
+%
+%\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,703 @@
+\documentclass[12pt]{article}
+
+\usepackage{amssymb, amsmath, amsfonts}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{moreverb}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{graphics}
+\usepackage{color}
+\usepackage{array}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{textcomp}
+\usepackage{alltt}
+\usepackage{mathtools}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\newcommand{\suchthat}{\, \mid \,}
+\allowdisplaybreaks
+\def\arraystretch{1.3}
+
+\begin{document}
+
+{\bf MATH 481A \hfill Numerical Analysis \ \ \ \ \ \hfill Spring 2015}
+
+\title{\bf Hw \# 2 Solutions}
+\author{\bf Sam Fleischer}
+\date{\bf Thurs. Feb. 19, 2015}
+
+{\let\newpage\relax\maketitle}
+\maketitle
+\tableofcontents
+\pagebreak
+
+\section*{Chapter 2}
+\addcontentsline{toc}{section}{Chapter 2}
+
+\subsection*{Section 2.2}
+\addcontentsline{toc}{subsection}{Section 2.2}
+
+\subsubsection*{1.}
+\addcontentsline{toc}{subsubsection}{1}
+
+\begin{equation}
+\label{problem_1a}
+f(x) \approx \frac{1}{x_1 - x_0}\left|\begin{array}{cc}
+	f(x_0) & x_0 - x \\
+	f(x_1) & x_1 - x
+	\end{array}\right|
+\end{equation}
+{\it Use (\ref{problem_1a}) to calculate approximate values of $f(x)$ when $x = 1.1416$, $1.1600$, and $1.2000$ from the following rounded data:}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r|llll}
+    $x$ & 1.1275 & 1.1503 & 1.1735 & 1.1972 \\  \hline
+    $f(x)$ & 0.11971 & 0.13957 & 0.15931 & 0.17902
+    \end{tabular}
+\end{table}
+
+\noindent For $\hat{x} = 1.1416$, choose $x_0 = 1.1275$ and $x_1 = 1.1503$ so $\hat{x} \in (x_0, x_1)$.  Thus
+\begin{align*}
+f(\hat{x}) &\approx \frac{1}{x_1 - x_0}\left|\begin{array}{cc}
+	f(x_0) & x_0 - \hat{x} \\
+	f(x_1) & x_1 - \hat{x}
+	\end{array}\right| \\
+&= \frac{1}{1.1503 - 1.1275}\left|\begin{array}{cc}
+	0.11971 & 1.1275 - 1.1416 \\
+	0.13957 & 1.1503 - 1.1416
+	\end{array}\right| \\
+&= \frac{1}{0.0228}[(0.11971)(0.0087) - (-0.0141)(0.13957)] \\
+&\approx \boxed{0.1320}
+\end{align*}
+For $\hat{x} = 1.1600$, choose $x_0 = 1.1503$ and $x_1 = 1.1735$ so $\hat{x} \in (x_0, x_1)$.  Thus
+\begin{align*}
+f(\hat{x}) &\approx \frac{1}{x_1 - x_0}\left|\begin{array}{cc}
+	f(x_0) & x_0 - \hat{x} \\
+	f(x_1) & x_1 - \hat{x}
+	\end{array}\right| \\
+&= \frac{1}{1.1735 - 1.1503}\left|\begin{array}{cc}
+	0.13957 & 1.1503 - 1.1600 \\
+	0.15931 & 1.1735 - 1.1600
+	\end{array}\right| \\
+&= \frac{1}{0.0232}[(0.13957)(0.0135) - (-0.0097)(0.15931)] \\
+&\approx \boxed{0.1478}
+\end{align*}
+For $\hat{x} = 1.2000$, choose $x_0 = 1.1735$ and $x_1 = 1.1972$ because those are the two closes data points to $\hat{x}$.  However, since $\hat{x} \notin (x_0, x_1)$, we cannot guarantee an upper bound on the error.
+\begin{align*}
+f(\hat{x}) &\approx \frac{1}{x_1 - x_0}\left|\begin{array}{cc}
+	f(x_0) & x_0 - \hat{x} \\
+	f(x_1) & x_1 - \hat{x}
+	\end{array}\right| \\
+&= \frac{1}{1.1972 - 1.1735}\left|\begin{array}{cc}
+	0.15931 & 1.1735 - 1.2000 \\
+	0.17902 & 1.1972 - 1.2000
+	\end{array}\right| \\
+&= \frac{1}{0.0237}[(0.15931)(-0.0028) - (-0.0265)(0.17902)] \\
+&\approx \boxed{0.1813}
+\end{align*}
+
+\subsubsection*{2.}
+\addcontentsline{toc}{subsubsection}{2}
+
+\begin{equation}
+\label{problem_2a}
+f(x) \approx f(x_0) + (x - x_0)f[x_0, x_1]
+\end{equation}
+{\it Calculate the three first divided differences relevant to successive pairs of data in Problem 1, and use (\ref{problem_2a}) to determine approximate values of f(x) for}
+\begin{align*}
+x \in \mathcal{X} &= \{x \in [1.1600, 1.1700] \ \big|\  x = 1.1600 + 0.0020k,\ k \in \mathbb{Z}\} \\
+&= \{1.1600, 1.1620, 1.1640, 1.1660, 1.1680, 1.1700\}
+\end{align*}
+
+\noindent The definition of {\it first divided difference} is
+\begin{align*}
+f[x_0, x_1] = \frac{f(x_1) - (x_0)}{x_1 - x_0}
+\end{align*}
+The data points in Problem 1 are $\{(1.1275, 0.11971), (1.1503, 0.13957), (1.1735, 0.15931),$\\ $(1.1972, 0.17902)\}$.  So,
+\begin{align*}
+f_1 = f[1.1275, 1.1503] &= \frac{0.13957 - 0.11971}{1.1503 - 1.1275} \approx 0.8711\\[.2cm]
+f_2 = f[1.1503, 1.1735] &= \frac{0.15931 - 0.13957}{1.1735 - 1.1503} \approx 0.8509\\[.2cm]
+f_3 = f[1.1735, 1.1972] &= \frac{0.17902 - 0.15931}{1.1972 - 1.1735} \approx 0.8316
+\end{align*}
+Since $\mathcal{X} \subset (1.1503, 1.1735)$, we use $f_2$ to linearly interpolate the values of $x \in \mathcal{X}$.  Per equation (\ref{problem_2a}),
+\begin{align*}
+f(1.1600) \approx 0.13957 + (1.1600 - 1.1503)(0.8509) \approx 0.1478 \\
+f(1.1620) \approx 0.13957 + (1.1620 - 1.1503)(0.8509) \approx 0.1495 \\
+f(1.1640) \approx 0.13957 + (1.1640 - 1.1503)(0.8509) \approx 0.1512 \\
+f(1.1660) \approx 0.13957 + (1.1660 - 1.1503)(0.8509) \approx 0.1529 \\
+f(1.1680) \approx 0.13957 + (1.1680 - 1.1503)(0.8509) \approx 0.1546 \\
+f(1.1700) \approx 0.13957 + (1.1700 - 1.1503)(0.8509) \approx 0.1563
+\end{align*}
+
+\subsubsection*{3.}
+\addcontentsline{toc}{subsubsection}{3}
+
+{\it Prove that $f[x_0, x_1]$ is independent of $x_0$ and $x_1$ if and only if $f(x)$ is a linear function of $x$.} \\
+
+\noindent Suppose $f(x)$ is a linear function.  That is, $f(x) = mx + b$ for some constants $m$ and $b$.  Then choose two arbitrary points, $x_0$ and $x_1$.
+\begin{align*}
+f[x_0, x_1] &= \frac{f(x_1) - f(x_0)}{x_1 - x_0} \\
+&= \frac{mx_1 + b - mx_0 - b}{x_1 - x_0} \\
+&= \frac{m(x_1 - x_0)}{x_1 - x_0} \\
+&= m
+\end{align*}
+Since $m$ is a given constant, $f[x_0, x_1]$ is independent of $x_0$ and $x_1$. \\
+
+\noindent Now suppose $f[x_0, x_1]$ is independent of $x_0$ and $x_1$.  That is, $f[x_0, x_1]$ is a constant $\forall x_0, x_1 \in \mathbb{R}$.  Let $f[x_0, x_1] = m$ be that constant.  Then
+\begin{align*}
+m = \frac{f(x_1) - f(x_0)}{x_1 - x_0} \\
+\implies f(x_1) - f(x_0) = m(x_1 - x_0)
+\end{align*}
+This is the {\it point-slope form} of a line, and thus $f(x)$ is a linear function of $x$.
+
+\subsubsection*{4.}
+\addcontentsline{toc}{subsubsection}{4}
+
+{\it If $f(x) = u(x)v(x)$, show that}
+\begin{align*}
+f[x_0, x_1] = u[x_0]v[x_0, x_1] + u[x_0, x_1]v[x_1]
+\end{align*}
+
+\noindent Using the definition of the first divided difference, 
+\begin{align*}
+f[x_0, x_1] &= \frac{f(x_1) - f(x_0)}{x_1 - x_0} \\[.1cm]
+&= \frac{u(x_1)v(x_1) - u(x_0)v(x_0)}{x_1 - x_0} \\[.1cm]
+&= \frac{u(x_1)v(x_1) - v(x_1)u(x_0) + v(x_1)u(x_0) - u(x_0)v(x_0)}{x_1 - x_0} \\[.1cm]
+&= \frac{u(x_0)(v(x_1) - v(x_0)) + v(x_1)(u(x_1) - u(x_0))}{x_1 - x_0} \\[.1cm]
+&= u(x_0)\frac{v(x_1) - v(x_0)}{x_1 - x_0} + v(x_1)\frac{u(x_1) - u(x_0)}{x_1 - x_0} \\[.1cm]
+&= u[x_0]v[x_0, x_1] + u[x_0, x_1]v[x_1]
+\end{align*}
+
+\subsubsection*{5.}
+\addcontentsline{toc}{subsubsection}{5}
+
+{\it If $f'(x)$ is continuous for $x_0 \leq x \leq x_1$, show that}
+\begin{align*}
+f[x_0, x_1] = f'(\xi)
+\end{align*}
+{\it for some $\xi$ between $x_0$ and $x_1$, and hence also that}
+\begin{align*}
+%\label{problem_5a}
+f[x_0, x_0] = \lim\limits_{x_1 \rightarrow x_0}f[x_0, x_1] = f'(x_0)
+\end{align*}
+
+\noindent Let $f'(x)$ be continuous for $x \in [x_0, x_1]$.  Then $f(x)$ exists and is continuous on that interval.  Then by the {\it Mean Value Theorem for Derivatives}, $\exists \xi \in (x_0, x_1)$ such that $f(x_1) - f(x_0) = (x_1 - x_0)f'(\xi)$.  In other words,
+\begin{align*}
+f[x_0, x_1] &= \frac{f(x_1) - f(x_0)}{x_1 - x_0} = f'(\xi)
+\end{align*}
+%Note that another form of $(\ref{problem_5a})$ is
+%\begin{align*}
+%\lim\limits_{x_1 \rightarrow x_0}f[x_0, x_1] = \lim\limits_{\epsilon \rightarrow 0}f[x_0, x_0 + \epsilon] = \lim\limits_{\epsilon \rightarrow 0}\frac{f(x_0 + \epsilon) - f(x_0)}{x_0 + \epsilon - x_0} = \lim\limits_{\epsilon \rightarrow 0}\frac{f(x_0 + \epsilon) - f(x_0)}{\epsilon} = f'(x_0)
+%\end{align*}
+Now consider the constant sequence $A = (a_i) = (x_0, x_0, \dots)$ and the sequence $B = (b_i) = (x_{11}, x_{12}, x_{13}, \dots)$ where $x_1 = x_{11}$ and $a_i < b_i \ \forall i \in \mathbb{N}$.  Let $B$ converge to $x_0$, and note that $A$ also converges to $x_0$.  Using the {\it Mean Value Theorem for Derivatives} for corresponding intervals $(\min\{a_i, b_i\}, \max\{a_i, b_i\})$ define $C = (\xi_i)$ where $\xi_i$ is the value for which $f(b_i) - f(a_i) = (b_i - a_i)f'(\xi_i)$.  By the {\it Squeeze Theorem}, $C$ converges to $x_0$.  Thus,
+\begin{align*}
+f[x_0, x_0] = \lim\limits_{x_1 \rightarrow x_0}f[x_0, x_1] = \lim\limits_{i \rightarrow \infty}f[a_i, b_i] &= \lim\limits_{i \rightarrow \infty}f'(\xi_i) = f'(x_0)
+\end{align*}
+
+\subsection*{Section 2.3}
+\addcontentsline{toc}{subsection}{Section 2.3}
+
+\subsubsection*{7.}
+\addcontentsline{toc}{subsubsection}{7}
+
+\begin{align}
+\label{problem_7a}
+\alpha_i^{(k)} = \frac{1}{(x_i - x_0)\dots(x_i - x_{i-1})(x_i - x_{i+1})\dots(x_i - x_k)}
+\end{align}
+\begin{align}
+\label{problem_7b}
+f[x_0, \dots, x_k] = \sum\limits_{i = 0}^{k}\alpha_i^{(k)}f(x_i)
+\end{align}
+{\it Suppose that $x_r = x_0 + rh$, $(r = 1, 2, \dots)$, so that the abcissas are at a uniform spacing $h$.  Show that (\ref{problem_7a}) then becomes}
+\begin{align*}
+\alpha_i^{(k)} = \frac{(-1)^{k-i}}{i!(k-i)!}\frac{1}{h^k} = \frac{(-1)^{(k-i)}}{h^{k}k!}\binom{k}{i}
+\end{align*}
+{\it where $\displaystyle\binom{k}{i}$ is the binomial coefficient.  Thus deduce that}
+\begin{align}
+\label{problem_7c}
+f[x_0, \dots, x_k] = \frac{1}{h^{k}k!}\sum\limits_{i=0}^{k}(-1)^{k-i}\binom{k}{i}f(x_i)
+\end{align}
+{\it in this case.} \\
+
+\noindent Supposing $x_r = x_0 + rh$ for $r = 1, 2, \dots$, then specifically $x_i  = x_0 + ih$, and by (\ref{problem_7a}),
+\begin{align*}
+\alpha_i^{(k)} &= \frac{1}{\Big([ih][(i-1)h][(i-2)h]\dots[2h][h]\Big)\Big([-h][-2h]\dots[-(k-i-1)h][-(k-i)h]\Big)} \\
+&= \frac{1}{\Big(i!h^i\Big) \cdot \Big((-1)^{k-i} h^{k-i} (k-i)!\Big)} \\
+&= \frac{(-1)^{k-i}}{i!(k-i)!h^k} \\
+& = \frac{(-1)^{k-i}}{k!h^k}\cdot \frac{k!}{i!(k-i)!} \\
+&= \frac{(-1)^{k-i}}{k!h^k}\binom{k}{i}
+\end{align*}
+where $\displaystyle\binom{k}{i}$ is the binomial coefficient given by $\dfrac{k!}{i!(k-i)! }$.  Then by (\ref{problem_7b}), 
+\begin{align*}
+f[x_0, \dots, x_k] &= \sum\limits_{i = 0}^{k}\frac{(-1)^{k-i}}{k!h^k}\binom{k}{i}f(x_i) \\
+&= \frac{1}{h^{k}k!}\sum\limits_{i=0}^{k}(-1)^{k-i}\binom{k}{i}f(x_i)
+\end{align*}
+
+\subsubsection*{9.}
+\addcontentsline{toc}{subsubsection}{9}
+
+{\it If $f'(x) = \dfrac{df(x)}{dx}$, show that}
+\begin{align*}
+\frac{d}{dx}f[x_0, x] \not\equiv f'[x_0, x]
+\end{align*}
+{\it unless $f(x)$ is linear.}
+
+\begin{align*}
+f[x_0, x] &= \frac{f(x) - f(x_0)}{x - x_0} \\
+\implies \frac{d}{dx}f[x_0, x] &= \frac{(x - x_0)(f'(x)) - (f(x) - f(x_0))}{(x - x_0)^2} \\
+&= \frac{1}{x - x_0}\left(f'(x) - \frac{f(x) - f(x_0)}{x - x_0}\right)
+\end{align*}
+\begin{align*}
+f'[x_0, x] = \frac{f'(x) - f'(x_0)}{x - x_0}
+\end{align*}
+Setting these two equal yields
+\begin{align*}
+f'(x) - \frac{f(x) - f(x_0)}{x - x_0} &= f'(x) - f'(x_0) \\
+\implies f[x_0, x] &= f'(x_0)
+\end{align*}
+But $f'(x_0)$ is a constant, and thus $f[x_0, x]$ must be constant in order for the two quantities to be equal.  However, $f[x_0, x]$ is only constant if $f(x)$ is a linear function of $x$ (i.e. $f(x) = mx + b$ for some $m, b \in \mathbb{R}$).  Thus $ \dfrac{d}{dx}f[x_0, x] \not\equiv f'[x_0, x]$ unless $f(x)$ is linear.
+
+\subsubsection*{11.}
+\addcontentsline{toc}{subsubsection}{11}
+
+{\it If $f(x) = \dfrac{ax + b}{cx + d}$, obtain expressions for $f[x, y]$, $f[x, x, y]$, and $f[x, x, y, y]$ in compact forms when $x \neq y$.} \\
+
+\noindent First note that $f[x, x] \equiv f'(x) = \dfrac{ad - bc}{(cx + d)^2}$.  Then,
+
+\begin{align*}
+f[x, y] &= \frac{\dfrac{ax + b}{cx + d} - \dfrac{ay + b}{cy + d}}{x - y} \cdot \frac{(cx + d)(cy + d)}{(cx + d)(cy + d)} \\[.1cm]
+&= \frac{(ax + b)(cy + d) - (ay + b)(cx + d)}{(x - y)(cx + d)(cy + d)} \\[.1cm]
+&= \frac{adx + bcy - ady - bcx}{(x -y)(cx + d)(cy + d)} \\[.1cm]
+&= \boxed{\frac{ad - bc}{(cx + d)(cy + d)}} \\[.1cm]
+\implies f[x, x, y] &= \frac{f[x, x] - f[x, y]}{x - y} \\[.1cm]
+&= \frac{\dfrac{ad - bc}{(cx + d)^2} - \dfrac{ad - bc}{(cx + d)(cy + d)}}{x - y} \\[.1cm]
+&= \frac{(ad - bc)(cy + d) - (ad - bc)(cx + d)}{(x - y)(cx + d)^2(cy + d)} \\[.1cm]
+&= \boxed{\frac{c(bc - ad)}{(cx + d)^2(cy + d)}}
+\end{align*}
+Similarly, $f[x, y, y] = \dfrac{c(bc - ad)}{(cx + d)(cy + d)^2}$.  Thus,
+\begin{align*}
+f[x, x, y, y] &= \frac{f[x, x, y] - f[x, y, y]}{x - y} \\[.1cm]
+&= \frac{\dfrac{c(bc - ad)}{(cx + d)^2(cy + d)} - \dfrac{c(bc - ad)}{(cx + d)(cy + d)^2}}{x - y} \\[.1cm]
+&= \frac{c(bc - ad)(cy + d) - c(bc - ad)(cx + d)}{(x - y)(cx + d)^2(cy + d)^2} \\[.1cm]
+&= \boxed{\frac{c^2(ad - bc)}{(cx + d)^2(cy + d)^2}}
+\end{align*}
+
+\subsection*{Section 2.5}
+\addcontentsline{toc}{subsection}{Section 2.5}
+
+\subsubsection*{23.}
+\addcontentsline{toc}{subsubsection}{23}
+
+{\it If $f(x_1)$, $f(x_2)$, and $f(x_3)$ are values of $f(x)$ near a maximum or minimum point at $x = \overline{x}$, obtain the approximation}
+\begin{align*}
+\overline{x} \approx \frac{x_1 + x_2}{2} - \frac{f[x_1, x_2]}{2f[x_1, x_2, x_3]}
+\end{align*}
+{\it and show that it can also be written in the more symmetrical form}
+\begin{align*}
+\overline{x} \approx \frac{x_1 + 2x_2 + x_3}{4} - \frac{f[x_1, x_2] + f[x_2, x_3]}{4f[x_1, x_2, x_3]}
+\end{align*}
+{\it Show also that, when the abscissas are equally spaced, it becomes}
+\begin{align*}
+\overline{x} \approx x_2 - \frac{h}{2}\left(\frac{f_3 - f_1}{f_1 - 2f_2 + f_3}\right)
+\end{align*}
+{\it where $h$ is the common interval. Note $f_i \coloneqq f(x_i)$.} \\
+
+\noindent We can use the following polynomial approximation for $f(x)$:
+\begin{align}
+\label{problem_23a}
+f(x) \approx p_{1, 2, 3}(x) &= f_1 + (x - x_1)f[x_1, x_2] + (x - x_1)(x - x_2)f[x_1, x_2, x_3] 
+\end{align}
+\begin{align*}
+\implies \frac{d}{dx}p_{1, 2, 3}(x) = p'_{1, 2, 3}(x) &= f[x_1, x_2] + [(x - x_1) + (x - x_2)]f[x_1, x_2, x_3]
+\end{align*}
+Since $\overline{x}$ is a minimum or maximum abcissa, then $f'(\overline{x}) = 0$, so
+\begin{align*}
+p'_{1, 2, 3}(\overline{x}) &\approx 0 \\
+\implies f[x_1, x_2] + [(\overline{x} - x_1) + (\overline{x} - x_2)]f[x_1, x_2, x_3] &\approx 0
+\end{align*}
+Solving for $\overline{x}$ yields
+\begin{align}
+\label{problem_23b}
+\overline{x} &\approx \boxed{\frac{x_1 + x_2}{2} - \frac{f[x_1, x_2]}{2f[x_1, x_2, x_3]}}
+\end{align}
+The definition of $p_{1, 2, 3}$ in (\ref{problem_23a}) is not unique, however, since the sum of $n$ divided differences up to the $n$\textsuperscript{th} divided difference can be summed in $2^n$ ways.  So define another polynomial approximation for $f(x)$:
+\begin{align*}
+f(x) \approx \overline{p_{1, 2, 3}}(x) &= f_3 + (x - x_3)f[x_2, x_3] + (x - x_2)(x - x_3)f[x_1, x_2, x_3]
+\end{align*}
+\begin{align*}
+\implies \frac{d}{dx}\overline{p_{1, 2, 3}}(x) = \overline{p'_{1, 2, 3}}(x) &= f[x_2, x_3] + [(x - x_2) + (x - x_3)]f[x_1, x_2, x_3]
+\end{align*}
+Again, since $\overline{x}$ is a minimum or maximum abscissa, then $f'(\overline{x}) = 0$.  Thus
+\begin{align*}
+\overline{p'_{1, 2, 3}}(\overline{x}) &\approx 0 \\
+\implies f[x_2, x_3] + [(\overline{x} - x_2) + (\overline{x} - x_3)]f[x_1, x_2, x_3] &\approx 0
+\end{align*}
+Solving for $\overline{x}$ yields
+\begin{align}
+\label{problem_23c}
+\overline{x} &\approx \frac{x_2 + x_3}{2} - \frac{f[x_2, x_3]}{2f[x_1, x_2, x_3]}
+\end{align}
+Since both (\ref{problem_23b}) and (\ref{problem_23c}) are valid approximations of $\overline{x}$, their arithmetic mean is also valid:
+\begin{align*}
+\overline{x} &\approx \frac{\dfrac{x_1 + x_2}{2} - \dfrac{f[x_1, x_2]}{2f[x_1, x_2, x_3]} + \dfrac{x_2 + x_3}{2} - \dfrac{f[x_2, x_3]}{2f[x_1, x_2, x_3]}}{2} \\[.2cm]
+&\approx \boxed{\frac{x_1 + 2x_2 + x_3}{4} - \frac{f[x_1, x_2] + f[x_2, x_3]}{4f[x_1, x_2, x_3]}}
+\end{align*}
+Now suppose the abscissas are equally spaced, and $h$ is the common difference $x_{i+1} - x_i$.  Thus $x_1 = x_2 - h$ and $x_3 = x_2 + h$.  Then
+\begin{align*}
+\frac{x_1 + 2x_2 + x_3}{4} = \frac{x_2 - h + 2x_2 + x_2 + h}{4} = x_2
+\end{align*}
+and
+\begin{align*}
+f[x_1, x_2] + f[x_2, x_3] &= \frac{f_2 - f_1}{h} + \frac{f_3 - f_2}{h}\\
+&= \frac{f_3 - f_1}{h}
+\end{align*}
+and
+\begin{align*}
+4f[x_1, x_2, x_3] &= 4\cdot \frac{f[x_2, x_3] - f[x_1, x_2]}{2h} \\[.2cm]
+&= \frac{2}{h}\left(\frac{f_3 - f_2}{h} - \frac{f_2 - f_1}{h}\right) \\[.2cm]
+&= \frac{2}{h^2}\left(f_1 - 2f_2 + f_3\right)
+\end{align*}
+Thus,
+\begin{align*}
+\overline{x} &\approx \frac{x_1 + 2x_2 + x_3}{4} - \frac{f[x_1, x_2] + f[x_2, x_3]}{4f[x_1, x_2, x_3]} \\
+&= \boxed{x_2 - \frac{2}{h}\left(\frac{f_3 - f_1}{f_1 - 2f_2 + f_3}\right)}
+\end{align*}
+
+\subsection*{Section 2.6}
+\addcontentsline{toc}{subsection}{Section 2.6}
+
+\subsubsection*{24.}
+\addcontentsline{toc}{subsubsection}{24}
+
+{\it Show that the truncation error associated with linear interpolation of $f(x)$, using ordinates at $x_0$ and $x_1$ with $x_0 \leq x \leq x_1$, is not larger in magnitude than}
+\begin{align*}
+\frac{1}{8}M_2(x_1 - x_0)^2
+\end{align*}
+{\it where $M_2$ is the maximum value of $|f''(x)|$ on the interval $[x_0, x_1]$.  Does this result hold also for extrapolation?} \\
+
+\noindent For $n = 1$, the absolute value of the error is bounded by
+\begin{align*}
+|E(x)| \leq \frac{M_2}{(1+1)!}|\pi(x)|
+\end{align*}
+where $M_2$ is the maximum value of $|f''(x)|$ on $[x_0, x_1]$.  But $|\pi(x)| = |x - x_0|\cdot|x - x_1|$, so
+\begin{align*}
+|E(x)| \leq \frac{M_2}{2}|x - x_0|\cdot|x - x_1|
+\end{align*}
+But since the sum of $x_1 - x$ and $x - x_0$ are constant, their product is maximized when they coincide, which is where $x$ is at the midpoint of $x_0$ and $x_1$, and thus the difference is half the distance from $x_0$ to $x_1$, i.e. $\dfrac{x_1 - x_0}{2}$.  Thus
+\begin{align*}
+|x - x_0|\cdot|x - x_1| &\leq \left(\frac{x_1 - x_0}{2}\right)^2 \\
+\implies |E(x)| &\leq \frac{M_2}{2}\left(\frac{x_1 - x_0}{2}\right)^2 \\
+&= \frac{1}{8}M_2(x_1 - x_0)^2
+\end{align*}
+The argument presented above does {\it not} hold for extrapolation because if $x$ is not between $x_0$ and $x_1$ then $|x - x_0|\cdot|x - x_1|$ is not bounded, and is certainly not bounded by $\left(\dfrac{x_1 - x_0}{2}\right)^2$.  As a counterexample, consider $x_0 = 4$, $x_1 = 10$, and $x = 12$.  Then $\left(\dfrac{x_1 - x_0}{2}\right)^2 = \dfrac{36}{4} = 9$, but $|12 - 4|\cdot|12 - 10| = 8\cdot2 = 16\nleq9$.
+
+\subsubsection*{29.}
+\addcontentsline{toc}{subsubsection}{29}
+
+{\it Obtain the formula}
+\begin{align*}
+f(x) = f(x_0) + (x - x_0)f'(x_0) + (x - x_0)^2f[x_0, x_0, x_1] + (x - x_0)^2(x - x_1)f[x_0, x_0, x_1, x_1] + E(x)
+\end{align*}
+{\it where}
+\begin{align*}
+E(x) = \frac{1}{24}(x - x_0)^2(x - x_1)^2f^{\text{iv}}(\xi) \ \ \ \ \ \ \ \ \ \ \ (x_0 < x, \xi < x_1)
+\end{align*}
+{\it and show that}
+\begin{align*}
+|E(x)| \leq \frac{h^4}{384}\max\limits_{x_0 \leq x \leq x_1} |f^{\text{iv}}(x)|
+\end{align*}
+
+\noindent Newton's Fundamental Formula gives
+\begin{align*}
+f(x) &= f[x_0] + (x - x_0)f[x_0, x_1] + (x - x_0)(x - x_1)f[x_0, x_1, x_2] \\
+&\ \ \ \ + \dots + (x - x_0)\dots(x - x_{n-1})f[x_0,\dots,x_n] + E(x)
+\end{align*}
+where
+\begin{align*}
+E(x) = (x - x_0)\dots(x - x_n)f[x_0, \dots, x_n, x]
+\end{align*}
+Suppose $x_0$ and $x_1$ coincide, and $x_2$ and $x_3$ coincide.  For ease, let $x_0$ and $x_1$ be those values, respectively.  Then
+\begin{align*}
+f(x) &= f[x_0] + (x - x_0)f[x_0, x_0] + (x - x_0)(x - x_0)f[x_0, x_0, x_1] \\
+&\ \ \ \ + (x - x_0)(x - x_0)(x - x_1)f[x_0, x_0, x_1, x_1] + E(x)
+\end{align*}
+where
+\begin{align*}
+E(x) = (x - x_0)(x - x_0)(x - x_1)(x - x_1)f[x_0, x_0, x_1, x_1, x]
+\end{align*}
+Thus,
+\begin{align*}
+f(x) = f(x_0) + (x - x_0)f'(x_0) + (x - x_0)^2f[x_0, x_0, x_1] + (x - x_0)^2(x - x_1)f[x_0, x_0, x_1, x_1] + E(x)
+\end{align*}
+where
+\begin{align*}
+E(x) = (x - x_0)^2(x - x_1)^2f[x_0, x_0, x_1, x_1, x]
+\end{align*}
+By {\it Rolle's Theorem}, $\exists \xi \in [\text{min}(x_0, x_1), \text{max}(x_0, x_1)]$ such that
+\begin{align*}
+f[x_0, x_0, x_1, x_1, x] &= \frac{1}{4!}f^{\text{iv}}(\xi) = \frac{1}{24}f^{\text{iv}}(\xi) \\[.1cm]
+\implies E(x) &= \frac{1}{24}(x - x_0)^2(x - x_1)^2f^{\text{iv}}(\xi)
+\end{align*}
+By the same argument made in Problem 24, $(x - x_0)^2(x - x_1)^2 \leq \left(\dfrac{x_1 - x_0}{2}\right)^4$.  Thus
+\begin{align*}
+E(x) &\leq \frac{1}{24}\cdot\frac{1}{16}(x_1 - x_0)^4 f^{\text{iv}}(\xi) \\
+&\leq \frac{1}{384}(x_1 - x_0)^4 \max\limits_{x_0 \leq x \leq x_1} |f^{\text{iv}}(x)| \\
+&= \frac{h^4}{384}\max\limits_{x_0 \leq x \leq x_1} |f^{\text{iv}}(x)|
+\end{align*}
+where $h$ is the constant distance between $x_0$ and $x_1$, namely $|x_1 - x_0|$.
+
+\subsubsection*{30.}
+\addcontentsline{toc}{subsubsection}{30}
+
+\begin{align}
+\label{problem_30a}
+E(x) = \frac{1}{(n+1)!}f^{(n+1)}(\xi)\pi(x)
+\end{align}
+\begin{align}
+\label{problem_30b}
+E(x) = \pi(x)f[x_0,\dots, x_n, x]
+\end{align}
+{\it If $f(x) = \dfrac{1}{x+1}$ and $y(x)$ is the polynomial approximation of degree $n$ which agrees with $f(x)$ when $x = 0, 1, 2, \dots, n$, show that the use of (\ref{problem_30a}) leads to the error bound}
+\begin{align*}
+|E(x)| < |x(x-1)\dots(x-n)|
+\end{align*}
+{\it whereas (\ref{problem_30b}) permits the less conservative bound}
+\begin{align*}
+|E(x)| < \frac{1}{(n+1)!}|x(x-1)\dots(x-n)|
+\end{align*}
+{\it when $x \geq 0$} \\
+
+\noindent First, note the following:
+\begin{align*}
+f^{(n+1)}(x) &= \frac{(-1)^{n+1}(n+1)!}{(x+1)^{n+2}} \\
+\implies f^{(n+1)}(\xi) &= \frac{(-1)^{n+1}(n+1)!}{(\xi+1)^{n+2}}
+\end{align*}
+Thus, by (\ref{problem_30a}), 
+\begin{align*}
+|E(x)| &= \left|\frac{1}{(n+1)!}\cdot\frac{(-1)^{n+1}(n+1)!}{(\xi+1)^{n+2}}\cdot \pi(x)\right| \\
+&= \left|\frac{1}{(\xi + 1)^{n+2}}\cdot(x - x_0)(x - x_1)\dots(x - x_n)\right|
+\end{align*}
+$x_i = i$ for $i = 0, 1, 2, \dots, n \implies \xi \in (0, n) \implies \xi + 1 \geq 1 \implies \left|\dfrac{1}{(\xi + 1)^{n+2}}\right| < 1$.  Thus,
+\begin{align*}
+|E(x)| < |x(x-1)\dots(x-n)|
+\end{align*}
+An inductive attempt is made to prove the `less conservative' bound
+\begin{align*}
+|E(x)| < \frac{1}{(n+1)!}|x(x-1)\dots(x-n)|
+\end{align*}
+For $n = 0$, $|f[x_0, x]| = \left|\dfrac{f(x) - f(x_0)}{x - x_0}\right| = \left|\dfrac{1 - (x+1)}{x(x + 1)}\right| = \dfrac{1}{x + 1}$.  If $x = 0$, the error is guaranteed to be $0$, which is certainly less than $\dfrac{1}{(0 + 1)!} = 1$.  If $x > 0$, then $\dfrac{1}{x + 1} < 1 = \dfrac{1}{(0 + 1)!}$.  Then by (\ref{problem_30b}),
+\begin{align*}
+|E(x)| < \frac{1}{(0 + 1)!}|x| = |x|
+\end{align*}
+Now assume $\forall k \in \{0, \dots, n-1\}$, $|f[x_0, \dots, x_k, x]| < \dfrac{1}{(k + 1)!}$, which would, by (\ref{problem_30b}), show that $|E(x)| < \dfrac{1}{(k+1)!}|x(x - 1)\dots(x - k)|$.  Also note that because our data points are equally spaced, (\ref{problem_7c}) holds (with $h = 1$), and thus $f[x_0, \dots, x_n] = \dfrac{1}{n!}\displaystyle\sum\limits_{i=0}^{n}(-1)^{n-i}\binom{n}{i}f(x_i)$.  Thus,
+\begin{align*}
+f[x_0, \dots, x_n, x] &= \frac{f[x_0, \dots, x_{n-1}, x] - f[x_0, \dots, x_n]}{x - x_n} \\
+&< \frac{\dfrac{1}{n!} - \dfrac{1}{n!}\displaystyle\sum\limits_{i = 0}^{n}\left[(-1)^{n - i}\binom{n}{i}f(i)\right]}{x - n} \\[.1cm]
+&= \frac{\dfrac{1}{n!} - \dfrac{1}{n!}\displaystyle\sum\limits_{i = 0}^{n}\left[(-1)^{n - i}\dfrac{n!}{i!(n-i)!}\dfrac{1}{i + 1}\right]}{x - n} \\[.1cm]
+&= \frac{\dfrac{1}{n!} - \displaystyle\sum\limits_{i = 0}^{n}\left[(-1)^{n-i}\dfrac{1}{(i + 1)!(n - i)!}\right]}{x - n} \\[.1cm]
+&= \frac{\dfrac{1}{n!} - \dfrac{1}{(n+1)!}\displaystyle\sum\limits_{i = 0}^{n}\left[(-1)^{n-i}\binom{n+1}{i+1}\right]}{x - n}
+\end{align*}
+At this time, I am unable to adequately bound this error function.
+
+\section*{Chapter 3}
+\addcontentsline{toc}{section}{Chapter 3}
+
+\subsection*{Section 3.2}
+\addcontentsline{toc}{subsection}{Section 3.2}
+
+\subsubsection*{1.}
+\addcontentsline{toc}{subsubsection}{1}
+
+{\it By noticing that the zeroth Lagrangian coefficient function of degree $n$ takes on the value unity when $x = x_0$ and the value zero when $x = x_1, \dots, x_n$, and by considering the associated divided difference table (or otherwise), show that}
+\begin{align}
+\label{problem_3.2.1a}
+l_0(x) = 1 + \frac{x - x_0}{x_0 - x_1} + \frac{(x - x_0)(x - x_1)}{(x_0 - x_1)(x_0 - x_2)} + \dots + \frac{(x - x_0)\dots(x - x_{n-1})}{(x_0 - x_1)\dots(x_0 - x_n)}
+\end{align}
+{\it and that similar expressions can be written down by symmetry for the other coefficient functions.} \\
+
+\noindent I will show this by induction.  First, note the base case.  For $n = 1$,
+\begin{align*}
+1 + \frac{x - x_0}{x_0 - x_1} &= \frac{x_0 - x_1 + x - x_0}{x_0 - x_1} \\
+&= \frac{x - x_1}{x_0 - x_1}
+\end{align*}
+Now suppose the equation holds for and for $n = k$.  For $n = k+1$,
+\begin{align*}
+&1 + \frac{x - x_0}{x_0 - x_1} + \dots + \frac{(x - x_0)\dots(x - x_{n-1})}{(x_0 - x_1)\dots(x_0 - x_n)} + \frac{(x - x_0)\dots(x - x_n)}{(x_0 - x_1)\dots(x_0 - x_{n+1})} \\[.1cm]
+&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \text{\it (by the induction assumption)}\\
+&= \frac{(x - x_1)\dots(x - x_n)}{(x_0 - x_1)\dots(x_0 - x_n)} + \frac{(x - x_0)\dots(x - x_{n-1})(x - x_n)}{(x_0 - x_1)\dots(x_0 - x_n)(x_0 - x_{n+1})} \\[.1cm]
+&= \frac{[(x - x_1)\dots(x - x_{n-1})]\cdot[x_0 - x_{n+1} + x - x_0]}{(x_0 - x_1)\dots(x_0 - x_n)(x_0 - x_{n+1})} \\[.1cm]
+&= \frac{(x - x_1)\dots(x - x_n)}{(x_0 - x_1)\dots(x_0 - x_{n+1})}
+\end{align*}
+Thus (\ref{problem_3.2.1a}) holds for all natural numbers.  The corresponding formulas for $i = 1, \dots, n$ are:
+\begin{align*}
+l_1(x) &= 1 + \frac{x - x_1}{x_1 - x_0} + \frac{(x - x_0)(x - x_1)}{(x_1 - x_0)(x_1 - x_2)} + \dots + \frac{(x - x_0)\dots(x - x_{n-1})}{(x_1 - x_0)(x_1 - x_2)\dots(x_1 - x_n)} \\[.1cm]
+l_2(x) &= 1 + \frac{x - x_2}{x_2 - x_0} + \frac{(x - x_0)(x - x_2)}{(x_2 - x_0)(x_2 - x_1)} + \frac{(x - x_0)(x - x_1)(x - x_2)}{(x_2 - x_0)(x_2 - x_1)(x_2 - x_3)} \\[.1cm]
+&\ \ \ + \dots + \frac{(x - x_0)\dots(x - x_{n-1})}{(x_2 - x_0)(x_2 - x_1)(x_2 - x_3)\dots(x_2 - x_n)}\\[.1cm]
+&\vdots\\[.1cm]
+l_i(x) &= 1 + \frac{x - x_i}{x_i - x_0} + \frac{(x - x_i)(x - x_0)}{(x_i - x_0)(x_i - x_1)} + \frac{(x - x_i)(x - x_0)(x - x_1)}{(x_i - x_0)(x_i - x_1)(x_i - x_2)} \\[.1cm]
+&\ \ \ + \dots + \frac{(x - x_0)\dots(x - x_i)}{(x_i - x_0)\dots(x_i - x_{i-1})(x_i - x_{i+1})} \\[.1cm]
+&\ \ \ + \dots + \frac{(x - x_0)\dots(x - x_{n-1})}{(x_i - x_0)\dots(x_i - x_{i-1})(x_i - x_{i+1})\dots(x_i - x_n)} \\[.1cm]
+&\vdots\\[.1cm]
+l_n(x) &= 1 + \frac{x - x_n}{x_n - x_0} + \frac{(x - x_n)(x - x_0)}{(x_n - x_0)(x_n - x_1)} + \dots + \frac{(x - x_0)(x - x_1)\dots(x - x_{n-2})(x - x_n)}{(x_n - x_0)\dots(x_n - x_{n-1})}
+\end{align*}
+
+\subsubsection*{4.}
+\addcontentsline{toc}{subsubsection}{4}
+
+\begin{align}
+\label{problem_4a}
+\left|\begin{array}{cccccc}
+y & 1 & x & x^2 & \dots & x^n \\
+f(x_0) & 1 & x_0 & x_0^2 & \dots & x_0^n \\
+\vdots & \vdots & \vdots & \vdots &  & \vdots \\
+f(x_n) & 1 & x_n & x_n^2 & \dots & x_n^n
+\end{array}\right| = 0
+\end{align}
+
+\noindent {\it Show that}
+\begin{align*}
+\left|\begin{array}{ccc}
+1 & a_1 & a_1^2 \\
+1 & a_2 & a_2^2 \\
+1 & a_3 & a_3^2 \\
+\end{array}\right| = (a_2 - a_1)(a_3 - a_1)(a_3 - a_2)
+\end{align*}
+{\it and use this fact to express the result of expanding the left-hand member of (\ref{problem_4a}) with respect to the elements of the first column, and equating the result to zero, in Lagrangian form when $n = 2$.} \\
+
+\noindent In the second line of the following calculation, the term $a_1a_2a_3$ is added and subtracted so that the correct factoring can occur.
+\begin{align*}
+\left|\begin{array}{ccc}
+1 & a_1 & a_1^2 \\
+1 & a_2 & a_2^2 \\
+1 & a_3 & a_3^2 \\
+\end{array}\right| &= a_2a_3^2 - a_2^2a_3 - a_1a_3^2 + a_1^2a_3 + a_1a_2^2 - a_1^2a_2 \\
+&= a_2a_3^2 - a_2^2a_3 - a_1a_2a_3 + a_1a_2^2 - a_1a_3^2 + a_1a_2a_3 + a_1^2a_3 - a_1^2a_2 \\
+&= (a_2a_3 - a_1a_2 - a_1a_3 + a_1^2)(a_3 - a_2) \\
+&= (a_2 - a_1)(a_3 - a_1)(a_3 - a_2)
+\end{align*}
+Consider (\ref{problem_4a}) for $n = 2$:
+\begin{align*}
+\left|\begin{array}{cccc}
+y & 1 & x & x^2 \\
+f(x_0) & 1 & x_0 & x_0^2 \\
+f(x_1) & 1 & x_1 & x_1^2 \\
+f(x_2) & 1 & x_2 & x_2^2
+\end{array}\right| &= 0 \\
+y\cdot\left|\begin{array}{ccc}
+1 & x_0 & x_0^2 \\
+1 & x_1 & x_1^2 \\
+1 & x_2 & x_2^2
+\end{array}\right|
+- f(x_0)\cdot\left|\begin{array}{ccc}
+1 & x & x^2 \\
+1 & x_1 & x_1^2 \\
+1 & x_2 & x_2^2
+\end{array}\right|
++f(x_1)\cdot\left|\begin{array}{ccc}
+1 & x & x^2 \\
+1 & x_0 & x_0^2 \\
+1 & x_2 & x_2^2
+\end{array}\right|
+- f(x_2)\cdot\left|\begin{array}{ccc}
+1 & x & x^2 \\
+1 & x_0 & x_0^2 \\
+1 & x_1 & x_1^2
+\end{array}\right| &= 0
+\end{align*}
+Each of the four $3$x$3$ matrices can be expanded in a similar fashion as above, so
+\begin{align*}
+y[(x_1 - x_0)(x_2 - x_0)(x_2 - x_1)] - f(x_0)[(x_1 - x)(x_2 - x)(x_2 - x_1)]& \\
++ f(x_1)[(x_0 - x)(x_2 - x)(x_2 - x_0)] - f(x_2)[(x_0 - x)(x_1 - x)(x_1 - x_0)]& = 0
+\end{align*}
+Solving for $y$ yields
+\begin{align*}
+y &= f(x_0)\frac{(x_1 - x)(x_2 - x)}{(x_1 - x_0)(x_2 - x_0)} - f(x_1)\frac{(x_0 - x)(x_2 - x)}{(x_1 - x_0)(x_2 - x_1)} + f(x_2)\frac{(x_0 - x)(x_1 - x)}{(x_2 - x_0)(x_2 - x_1)} \\
+&= f(x_0)\frac{(x - x_1)(x - x_2)}{(x_0 - x_1)(x_0 - x_2)} + f(x_1)\frac{(x - x_0)(x - x_2)}{(x_1 - x_0)(x_1 - x_2)} + f(x_2)\frac{(x - x_0)(x - x_1)}{(x_2 - x_0)(x_2 - x_1)} \\
+&= l_0(x)f(x_0) + l_1(x)f(x_1) + l_2(x)f(x_2)
+\end{align*}
+
+\subsubsection*{6.}
+\addcontentsline{toc}{subsubsection}{6}
+
+{\it By considering the limit of the three-point Lagrangian interpolation formula relative to $x_0$, $x_0 + \epsilon$, and $x_1$, as $\epsilon \rightarrow 0$, obtain the formula}
+\begin{align*}
+f(x) = \frac{(x_1 - x)(x + x_1 - 2x_0)}{(x_1 - x_0)^2}f(x_0) + \frac{(x - x_0)(x_1 - x)}{x_1 - x_0}f'(x_0) + \frac{(x - x_0)^2}{(x_1 - x_0)^2}f(x_1) + E(x)
+\end{align*}
+{\it where}
+\begin{align*}
+E(x) = \frac{1}{6}(x - x_0)^2(x - x_1)f'''(\xi)
+\end{align*}
+
+\noindent The Lagrangian coefficient of $f(x_k)$ in $p_{0, 1, \dots, n}$ is
+\begin{align*}
+l_k(x) = \dfrac{(x-x_0)\dots(x-x_{k-1})(x-x_{k+1})\dots(x-x_n)}{(x_k-x_0)\dots(x_k-x_{k-1})(x_k-x_{k+1})\dots(x_k-x_n)}
+\end{align*}
+We will denote $x_0$, $x_1$, and $x_2$ as $x_0$, $x_0 + \epsilon$, and $x_1$, respectively.  Thus,
+\begin{align*}
+l_0(x) &= \frac{(x - x_0 - \epsilon)(x - x_1)}{(x_0 - x_0 - \epsilon)(x_0 - x_1)} = \frac{-1}{\epsilon}\cdot\frac{(x - x_0 - \epsilon)(x - x_1)}{x_0 - x_1} \\[.1cm]
+&= \frac{-1}{\epsilon}\cdot\left[\frac{(x - x_1)(x - x_0)}{x_0 - x_1} - \frac{\epsilon(x - x_1)}{x_0 - x_1}\right] \\[.1cm]
+l_{0, \epsilon}(x) &= \frac{(x - x_0)(x - x_1)}{(x_0 + \epsilon - x_0)(x_0 + \epsilon - x_1)} = \frac{1}{\epsilon}\cdot\frac{(x - x_0)(x - x_1)}{x_0 + \epsilon - x_1} \\[.1cm]
+&= \frac{1}{\epsilon}\cdot\left[\frac{(x - x_0)(x - x_1)}{x_0 + \epsilon - x_1} + \frac{(x - x_1)(x - x_0)}{x_0 - x_1} - \frac{(x - x_1)(x - x_0)}{x_0 - x_1}\right] \\[.1cm]
+l_1(x) &= \frac{(x - x_0)(x - x_0 - \epsilon)}{(x_1 - x_0)(x_1 - x_0 - \epsilon)}
+\end{align*}
+Using these coefficients, we can write
+\begin{align*}
+p_{0, 1, 2}(x) &= l_0(x)f(x_0) + l_{0, \epsilon}(x)f(x_0 + \epsilon) + l_1(x)f(x_1) \\[.1cm]
+&= \frac{-f(x_0)}{\epsilon}\left[\frac{(x - x_1)(x - x_0)}{x_0 - x_1} - \frac{\epsilon(x - x_1)}{x_0 - x_1}\right] \\[.1cm]
+&+f(x_0 + \epsilon)\left[\frac{(x - x_0)(x - x_1)}{\epsilon(x_0 + \epsilon - x_1)} + \frac{(x - x_1)(x - x_0)}{\epsilon(x_0 - x_1)} - \frac{(x - x_1)(x - x_0)}{\epsilon(x_0 - x_1)}\right] \\[.1cm]
+&+f(x_1)\frac{(x - x_0)(x - x_0 - \epsilon)}{(x_1 - x_0)(x_1 - x_0 - \epsilon)} \\[.1cm]
+&= \frac{(x - x_1)(x - x_0)}{x_0 - x_1}\left[\frac{f(x_0 + \epsilon) - f(x_0)}{\epsilon}\right] + f(x_0)\frac{x - x_1}{x_0 - x_1} \\[.1cm]
+&+ f(x_0 + \epsilon)(x - x_0)(x - x_1)\left[\frac{g(x_0 + \epsilon) - g(x_0)}{\epsilon}\right] + f(x_1)\frac{(x - x_0)(x - x_0 - \epsilon)}{(x_1 - x_0)(x_1 - x_0 - \epsilon)}
+\end{align*}
+where
+\begin{align*}
+g(x) = \frac{1}{x - x_1}
+\end{align*}
+Since $f'(x) \coloneqq \lim\limits_{\epsilon\rightarrow 0}\dfrac{f(x + \epsilon) - f(x)}{\epsilon}$, $g'(x) \coloneqq \lim\limits_{\epsilon\rightarrow 0}\dfrac{g(x + \epsilon) - g(x)}{\epsilon}$, and $g'(x) = \dfrac{-1}{(x - x_1)^2}$
+\begin{align*}
+\lim\limits_{\epsilon\rightarrow 0}p_{0, 1, 2} &= f'(x_0)\frac{(x - x_1)(x - x_0)}{x_0 - x_1} + f(x_0)\left(\frac{x - x_1}{x_0 - x_1} - \frac{(x - x_0)(x - x_1)}{(x_0 - x_1)^2}\right) + f(x_1)\frac{(x - x_0)^2}{(x_1 - x_0)^2} \\[.1cm]
+&= \frac{(x_1 - x)(x + x_1 - 2x_0)}{(x_1 - x_0)^2}f(x_0) + \frac{(x - x_0)(x_1 - x)}{x_1 - x_0}f'(x_0) + \frac{(x - x_0)^2}{(x_1 - x_0)^2}f(x_1) \\[.1cm]
+f(x) &= p_{0, 1, 2} + E(x)\\[.1cm]
+&= \frac{(x_1 - x)(x + x_1 - 2x_0)}{(x_1 - x_0)^2}f(x_0) + \frac{(x - x_0)(x_1 - x)}{x_1 - x_0}f'(x_0) + \frac{(x - x_0)^2}{(x_1 - x_0)^2}f(x_1) + E(x)
+\end{align*}
+
+%\pagebreak
+%\begin{thebibliography}{99}
+%
+%\bibitem{Abrams1997b}
+%Abrams, P.~A. and Matsuda, H.
+%Prey Adaptation as a Cause of Predator-Prey Cycles.
+%\emph{Evolution}
+%1997, 51:1742-1750.
+%
+%\bibitem{Chavez2001}
+%Brauer, F., Castillo-Chavez, C.
+%Mathematical Models in Population Biology and Epidemiology.
+%Springer,
+%2011. Print.
+%
+%\bibitem{Boyce2012}
+%Boyce, W. E., and DiPrima, R. C.
+%Elementary Differential Equations and Boundary Value Problems %10\textsuperscript{th} ed.
+%Wiley Global Education
+%2012. Print.
+%
+%\bibitem{Saloniemi1993}
+%Saloniemi, I.
+%A Coevolutionary Predator-Prey Model with Quantitative Characters.
+%\emph{American Naturalist}
+%1993, 141:880-896.
+%
+%\bibitem{Schreiber2011}
+%Schreiber, S.~J., B$\ddot{\mbox{u}}$rger,  R., and Bolnick,  D.~I.
+%The Community Effects of Phenotypic and Genetic Variation within a Predator %Population.
+%\emph{Ecology}
+%2011,  92(8):526-543. 
+%
+%\end{thebibliography}
+
+\end{document}
