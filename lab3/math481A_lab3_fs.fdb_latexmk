@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1427075289 "math481A_lab3_fs.tex" "math481A_lab3_fs.pdf" "math481A_lab3_fs" 1427075297
+["pdflatex"] 1427164397 "math481A_lab3_fs.tex" "math481A_lab3_fs.pdf" "math481A_lab3_fs" 1427164432
   "/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2014/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/gettitlestring.sty" 1303254447 8237 52810bdb4db2270e717422560a104aea ""
@@ -135,13 +135,13 @@
   "fractal_350_1500_4.png" 1427074919 129195 b5971ee58a9b900d2e4e26fafaaa3ced ""
   "fractal_500_2500_7.png" 1427070895 882214 520352f609c2aa9416fbaee30fe89ab6 ""
   "fractal_50_1500_3.png" 1427074488 178822 7249c354fb4dcea66b7e705d75d1652e ""
-  "math481A_lab3_fs.aux" 1427075296 1275 4891d525f6bcb315fda30b1113280dbb ""
-  "math481A_lab3_fs.out" 1427075296 90 3e6f8b2bab67a0b0451756b0b930d8d2 ""
-  "math481A_lab3_fs.tex" 1427075288 7417 c5533e890675069b680c21705857025e ""
-  "math481A_lab3_fs.toc" 1427075296 100 6bd9a10aa93ed69d802702875454031e ""
+  "math481A_lab3_fs.aux" 1427164399 1115 39450ac1bc016f8b02b545e4d781e188 ""
+  "math481A_lab3_fs.out" 1427164399 90 3e6f8b2bab67a0b0451756b0b930d8d2 ""
+  "math481A_lab3_fs.tex" 1427164397 7552 b4707d309adfe192c82234ac4f063063 ""
+  "math481A_lab3_fs.toc" 1427164399 100 6bd9a10aa93ed69d802702875454031e ""
   (generated)
-  "math481A_lab3_fs.log"
-  "math481A_lab3_fs.out"
-  "math481A_lab3_fs.toc"
   "math481A_lab3_fs.pdf"
+  "math481A_lab3_fs.out"
   "math481A_lab3_fs.aux"
+  "math481A_lab3_fs.toc"
+  "math481A_lab3_fs.log"

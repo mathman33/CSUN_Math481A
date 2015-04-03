@@ -134,41 +134,41 @@ def define_iterative_method(n, a, Id, zeros, tol):
 
 \noindent {\it Apply the iteration for polynomials of the form $p(z) = z^n - 1$ for values of $n = 2,3,4$, and different $complex$ values of $a$.  This will generate the {\underline{Julia Set}} of the rational function $z_{k+1} = z_k - a\left(\dfrac{p(z_k)}{p'(z_k)}\right)$ for the polynomial $p(z)$.  Repeat the calculation for different values of {\tt pixel}, {\tt K}, and {\tt tol}, and try different {\tt matpoltlib} color maps until you obtain a fractal you like.}\\
 
-\noindent {\it Repeat the images you created above but coloring the points on the grid according to the root they converge to. That is, if the $k$\textsuperscript{th} iteration of the point $z_{m,n} = x_m + iy_n$ is closest to the $s$\textsuperscript{th} root, increase the counter of that point and not the others and making sure that points that converge to one root end up being colored differently than those converging to another root.}
+\noindent {\it Repeat the images you created above but coloring the points on the grid according to the root they converge to. That is, if the $k$\textsuperscript{th} iteration of the point $z_{m,n} = x_m + iy_n$ is closest to the $s$\textsuperscript{th} root, increase the counter of that point and not the others and making sure that points that converge to one root end up being colored differently than those converging to another root.} \\
+
+\noindent The following images were created from various runs of the code.  The number of iterations, the number of pixels, the tolerance, the number of complex roots in the polynomial $z^n - 1$, the value of $a$, and the color scheme were all parameters passed through the command line.  For the last four images, the range was changed to $x, y \in [-2, 2]$.
 
 \begin{figure}[H]
     \centerline{
-        \includegraphics[scale=1]{fractal_500_2500_7.png}
+        \includegraphics[scale=1.1]{fractal_500_2500_7.png}
     }
-    \caption*{My favorite generated image: $z^7 - 1 = 0$, $a = 1 + \frac{19}{20}i$}
+    \caption*{$z^7 - 1 = 0$, $a = 1 + \frac{19}{20}i$}
 \end{figure}
-\begin{figure}[ht] 
-  \label{ fig7} 
-  \begin{minipage}[b]{0.5\linewidth}
-    \centering
-    \includegraphics[width=1\linewidth]{fractal_250_1500_2.png} 
-    \caption*{$z^2 - 1 = 0$, $a = \frac{1}{2} + \frac{3}{4}i$} 
-    \vspace{4ex}
-  \end{minipage}%%
-  \begin{minipage}[b]{0.5\linewidth}
-    \centering
-    \includegraphics[width=1\linewidth]{fractal_50_1500_3.png} 
+\begin{figure}[H]
+    \centerline{
+        \includegraphics[scale=0.63]{fractal_250_1500_2.png}
+    }
+    \caption*{$z^2 - 1 = 0$, $a = \frac{1}{2} + \frac{3}{4}i$}
+\end{figure}
+\begin{figure}[H]
+    \centerline{
+        \includegraphics[scale=0.63]{fractal_50_1500_3.png}
+    }
     \caption*{$z^3 - 1 = 0$, $a = 1 + \frac{1}{20}i$}
-    \vspace{4ex}
-  \end{minipage} 
-  \begin{minipage}[b]{0.5\linewidth}
-    \centering
-    \includegraphics[width=1\linewidth]{fractal_350_1500_4.png} 
-    \caption*{$z^4 - 1 = 0$, $a = \frac{1}{10} + \frac{1}{10}i$} 
-    \vspace{4ex}
-  \end{minipage}%% 
-  \begin{minipage}[b]{0.5\linewidth}
-    \centering
-    \includegraphics[width=1\linewidth]{fractal_100_1500_5.png} 
-    \caption*{$z^5 - 1 = 0$, $a = 1 + \frac{1}{5}i$}
-    \vspace{4ex}
-  \end{minipage} 
 \end{figure}
+\begin{figure}[H]
+    \centerline{
+        \includegraphics[scale=0.63]{fractal_350_1500_4.png}
+    }
+    \caption*{$z^4 - 1 = 0$, $a = \frac{1}{10} + \frac{1}{10}i$}
+\end{figure}
+\begin{figure}[H]
+    \centerline{
+        \includegraphics[scale=0.63]{fractal_100_1500_5.png}
+    }
+    \caption*{$z^5 - 1 = 0$, $a = 1 + \frac{1}{5}i$}
+\end{figure}
+
 %\pagebreak
 %\begin{thebibliography}{99}
 %
