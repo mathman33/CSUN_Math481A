@@ -1,0 +1,460 @@
+\documentclass[12pt]{article}
+
+\usepackage{amssymb, amsmath, amsfonts}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{moreverb}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{graphics}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{array}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{textcomp}
+\usepackage{alltt}
+\usepackage{mathtools}
+\usepackage[T1]{fontenc}
+\usepackage{ulem}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage[utf8]{inputenc}
+\newcommand{\suchthat}{\, \mid \,}
+\allowdisplaybreaks
+\def\arraystretch{1.3}
+
+\begin{document}
+
+{\bf MATH 481A \hfill Numerical Analysis \ \ \ \ \ \hfill Spring 2015}
+
+\title{\bf Hw \# 4 Solutions}
+\author{\bf Sam Fleischer}
+\date{\bf Tues. Apr. 14, 2015}
+
+{\let\newpage\relax\maketitle}
+\maketitle
+\tableofcontents
+\pagebreak
+
+\section*{Chapter 3}
+\addcontentsline{toc}{section}{Chapter 3}
+
+\subsection*{Section 3.6}
+\addcontentsline{toc}{subsection}{Section 3.6}
+
+\subsubsection*{29.}
+\addcontentsline{toc}{subsubsection}{29}
+{\it A Riemann sum associated with an integral $\int_a^b f(x) dx$ is an approximation of the form}
+\begin{align*}
+	S_n = \sum\limits_{k = 0}^n f(t_k)(s_{k+1} - s_k)
+\end{align*}
+where
+\begin{align*}
+	a = s_0 \leq t_0 \leq s_1 \leq t_1 \leq s_2 \leq \dots \leq s_n \leq t_n \leq s_{n+1} = b
+\end{align*}
+{\it Any sequence of such sums in which the subdivision of $[a, b]$ is refined in such a way that $\text{\rm max}(s_{k+1} - s_k) \rightarrow 0$ tends to the (Riemann) integral $I$ if it exists.}
+\begin{enumerate}[\it\ \ (a)\ \ ]
+	\item {\it Show that the approximations afforded by the repeated midpoint rule, the trapezoidal rule, and the parabolic rule are Riemann sums. (Display the values of $s_1, s_2, \dots, s_n$ in each case.)}
+	\begin{center}
+		\bf MIDPOINT RULE
+	\end{center}
+	\noindent The repeated midpoint rule is the following approximation:
+	\begin{align*}
+		\int_a^b f(x) dx \approx h\Big(f_\frac{1}{2} + f_\frac{3}{2} + \dots + f_{n - \frac{1}{2}}\Big)
+	\end{align*}
+	where $f_{k + \frac{1}{2}} = f(a + (k + \frac{1}{2})h)$ and $b = a + nh$.  Rearranging the terms gives
+	\begin{align*}
+		h\Big(f_\frac{1}{2} + f_\frac{3}{2} + \dots + f_{n - \frac{1}{2}}\Big) &= \sum_{k = 0}^{n-1}f(a + (k + \textstyle\frac{1}{2})h)(h) \\
+		&= \sum_{k = 0}^{n-1}f(t_k)(s_{k+1} - s_k)
+	\end{align*}
+	where $f(t_k) = f_{k + \frac{1}{2}} = f(a + (k + \frac{1}{2})h)$ and $s_k = a + kh$.  Note $\text{max}(s_{k+1} - s_k) = \text{max}(h) = h \rightarrow 0$ as $h \rightarrow 0$.  Since
+	\begin{align*}
+		a = s_0 \leq t_0 \leq s_1 \leq t_1 \leq s_2 \leq \dots \leq s_{n-1} \leq t_{n-1} \leq s_n = b
+	\end{align*}
+	and $k$ ranges from $0$ to $n-1$, the repeated midpoint rule is a Riemann sum.
+	\pagebreak
+	\begin{center}
+		\bf TRAPEZOIDAL RULE
+	\end{center}
+	\noindent The trapezoidal rule is the following approximation:
+	\begin{align*}
+		\int_a^b f(x) dx \approx h\Big(\textstyle\frac{1}{2}f_0 + f_1 + f_2 + \dots + f_{n-2} + f_{n-1} + \textstyle\frac{1}{2}f_n\Big)
+	\end{align*}
+	where $f_k = f(a + kh)$ and $b = a + nh$.  Rearranging the terms gives
+	\begin{align*}
+		h\Big(\textstyle\frac{1}{2}f_0 + f_1 + f_2 + \dots + f_{n-2} + f_{n-1} + \textstyle\frac{1}{2}f_n\Big) &= \sum_{k = 0}^{n-1}\textstyle\frac{1}{2}(f_k + f_{k+1})(h) \\
+		&= \sum_{k = 0}^{n-1}f(t_k)(s_{k+1} - s_k)
+	\end{align*}
+	where $t_k \in (s_k, s_{k+1})$ such that $f(t_k) = \frac{1}{2}(f_k + f_{k+1})$ and $s_k = a + kh$.  Note there always exists such a $t_k$ if $f$ is continuous.  Note $\text{max}(s_{k+1} - s_k) = \text{max}(h) = h \rightarrow 0$ as $h \rightarrow 0$.  Since
+	\begin{align*}
+		a = s_0 \leq t_0 \leq s_1 \leq t_1 \leq s_2 \leq \dots \leq s_{n-1} \leq t_{n-1} \leq s_n = b
+	\end{align*}
+	and $k$ ranges from $0$ to $n-1$, the repeated trapezoidal rule is a Riemann sum. 	\begin{center}
+		\bf PARABOLIC RULE
+	\end{center}
+	\noindent Let $n$ be an even integer.  The parabolic rule is the following approximation:
+	\begin{align*}
+		\int_a^b f(x) dx \approx \frac{h}{3}\Big(f_0 + 4f_1 + 2f_2 + 4f_3 + \dots + 4f_{n-3} + 2f_{n-2} + 4f_{n-1} + f_n\Big)
+	\end{align*}
+	where $f_k = f(a + kh)$ and $b = a + nh$.  Rearranging the terms gives
+	\begin{align*}
+		\frac{h}{3}\Big(f_0 + 4f_1 + 2f_2 + 4f_3 + \dots + &4f_{n-3} + 2f_{n-2} + 4f_{n-1} + f_n\Big)\\
+		&= \sum_{k=0}^{\frac{n}{2} - 1}\textstyle\frac{1}{6}(f_{2k} + 4f_{2k+1} + f_{2k+2})(2h) \\
+		&= \sum_{k = 0}^{\frac{n}{2} - 1}f(t_k)(s_{k+1} - s_k)
+	\end{align*}
+	where $t_k \in (s_k, s_{k+1})$ such that $f(t_k) = \frac{1}{6}(f_{2k} + 4f_{2k+1} + f_{2k+2})$ and $s_k = a + 2kh$.  Note there always exists such a $t_k$ if $f$ is continuous.  Note $\text{max}(s_{k+1} - s_k) = \text{max}(h) = h \rightarrow 0$ as $h \rightarrow 0$.  Since
+	\begin{align*}
+		a = s_0 \leq t_0 \leq s_1 \leq t_1 \leq s_2 \leq \dots \leq s_{n/2-1} \leq t_{n/2-1} \leq s_{n/2} = b
+	\end{align*}
+	and $k$ ranges from $0$ to $\frac{n}{2}-1$, the repeated parabolic rule is a Riemann sum.
+	\item {\it The relation}
+	\begin{align*}
+		\int_a^b f(x) dx &\approx \frac{h}{4}\Big(5f_0 + f_1 + f_2 + 10f_3 + f_4 + f_5 + 10f_6 + \dots\\
+		&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \dots + 10f_{n-3} + f_{n-2} + f_{n-1} + 5f_n\Big)
+	\end{align*}
+	{\it with the notations of Sec. 3.6 is an equality when $f(x)$ is any linear function.  Prove that the approximation is {\rm not} a Riemann sum.} \\
+
+	In order to be a Riemann Sum, $\displaystyle\int_a^b f(x) dx = \displaystyle\sum\limits_{i=1}^n f(x_i^*)\Delta x_i$ must have the property that $\displaystyle\sum\limits_{i=1}^n\Delta x_i = b-a$ where $b = x_{n+1}$ and $a = x_0$, and thus $b-a = (n+1)h$.  However,
+	\begin{align*}
+		&\frac{h}{4}\left(5f_0 + f_1 + f_2 + 10f_3 + \dots + 10f_{n-3} + f_{n-2} + f_{n-1} + 5f_n\right) \\[.2cm]
+		= &\frac{5h}{4}f_0 + \frac{h}{4}f_1 + \frac{h}{4}f_2 + \frac{10h}{4}f_3 + \dots + \frac{10h}{4}f_{n-3} + \frac{h}{4}f_{n-2} + \frac{h}{4}f_{n-1} + \frac{5h}{4}f_n
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\displaystyle\sum\limits_{i=0}^n\Delta x_i &= \left[2\left(\frac{5}{4}\right) + \left(\frac{n}{3} - 1\right)\frac{10}{4} + \left(2\frac{n}{3}\right)\frac{1}{4}\right]h \\
+		&= \left[\frac{10}{4} + \frac{10n}{12} - \frac{10}{4} + \frac{2n}{12}\right]h \\
+		&= nh \\
+		&\neq (n+1)h
+	\end{align*}
+	Thus $\dfrac{h}{4}\left(5f_0 + f_1 + f_2 + 10f_3 + \dots + 10f_{n-3} + f_{n-2} + f_{n-1} + 5f_n\right)$ is not a Riemann Sum.
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection*{30.}
+\addcontentsline{toc}{subsubsection}{30}
+{\it {\rm Convergence of composite rules}\ \ Suppose that $[a, b]$ is divided into $r$ equal parts by $a = X_0 < X_1 < \dots < X_{r-1} < X_r = b$, and let $\frac{b - a}{r} = H$.  If an $m$-point formula which yields exact results when integrating a constant is used to approximate the integral of $f(x)$ over each subinterval $[X_i, X_{i+1}]$, prove that the sum converges to the integral over $[a, b]$ as the spacing $H \rightarrow 0$.  (If the result of applying the $m$-point formula to $[X_0, X_1]$ is of the form}
+\begin{align*}
+	\int_{X_0}^{X_1} f(x) dx \approx H \sum_{k = 0}^{m-1} w_k f(X_0 + c_k)\ \ \ \ (0 \leq c_k \leq H)
+\end{align*}
+show that the total approximation is given by
+\begin{align*}
+	\int_{a}^{b}f(x) dx \approx \sum\limits_{k = 0}^{m - 1} w_k \left(H\sum\limits_{i = 0}^{r - 1}f(X_i + c_k)\right)
+\end{align*}
+{\it and that the inner sum is a Riemann sum for $f(x)$ over $[a, b]$.  Then let $r \rightarrow \infty$ and complete the proof.  See also Davis and Rabinowitz [1967], Sec. 2.4)} \\
+
+\noindent Since each interval $(X_i, X_{i+1})$ is approximated by
+\begin{align*}
+	\int_{X_i}^{X_{i+1}} f(x) dx \approx H \sum_{k=0}^{m-1}w_kf(X_i + c_k)\ \ \ \ (0 \leq c_k \leq H)
+\end{align*}
+then
+\begin{align*}
+	\int_a^b f(x) dx &= \int_{X_0}^{X_r} f(x) dx \\
+	&= \sum_{i=0}^{r-1}\int_{X_i}^{X_{x+1}} f(x) dx \\
+	&\approx \sum_{i=0}^{r-1} \left[H \sum_{k=0}^{m-1}w_kf(X_i + c_k)\right] \\
+	&= \sum_{i=0}^{r-1} \left[H\left(w_0f(X_i + c_0) + \dots + w_{m-1}f(X_i + c_{m-1})\right)\right] \\ &= \left[H\left(w_0f(X_0 + c_0) + \dots + w_{m-1}f(X_0 + c_{m-1})\right)\right] \\
+	&\ \ \ \ + \left[H\left(w_0f(X_1 + c_0) + \dots + w_{m-1}f(X_1 + c_{m-1})\right)\right] \\
+	&\ \ \ \ + \left[H\left(w_0f(X_2 + c_0) + \dots + w_{m-1}f(X_2 + c_{m-1})\right)\right] \\
+	&\ \ \ \ \ \ \vdots \\
+	&\ \ \ \ + \left[H\left(w_0f(X_{r-1} + c_0) + \dots + w_{m-1}f(X_{r-1} + c_{m-1})\right)\right] \\
+	&= w_0H(f(X_0 + c_0) + f(X_1 + c_0) + \dots + f(X_{r-1} + c_0)) \\
+	&\ \ \ \ + w_1H(f(X_0 + c_1) + f(X_1 + c_1) + \dots + f(X_{r-1} + c_1)) \\
+	&\ \ \ \ + w_2H(f(X_0 + c_2) + f(X_1 + c_2) + \dots + f(X_{r-1} + c_2)) \\
+	&\ \ \ \ \ \ \vdots \\
+	&\ \ \ \ + w_{Hm-1}(f(X_0 + c_{m-1}) + f(X_1 + c_{m-1}) + \dots + f(X_{r-1} + c_{m-1})) \\
+	&= \sum_{k=0}^{m-1}w_k\left(H\sum_{i=0}^{r-1}f(X_i + c_k)\right)
+\end{align*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection*{31.}
+\addcontentsline{toc}{subsubsection}{31}
+\begin{equation}
+\label{3.5.12}
+	\int_{x_0}^{x_3} f(x) dx = \frac{3h}{8} (f_0 + 3f_1 + 3f_2 + f_3) - \frac{3h^5}{80}f^{\text{iv}}(\xi)
+\end{equation}
+{\it Show that the composite rule corresponding to the repeated use of Newton's {\rm three-eights} rule (\ref{3.5.12}) is of the form}
+\begin{align*}
+	\int_{x_0}^{x_n} f(x) dx = \frac{3h}{8}\big(f_0 + 3f_1 + 3f_2 + 2f_3 + \dots + 2f_{n-3} + 3f_{n-2} + 3f_{n-1} + f_n\big) - \frac{nh^5}{80}f^{\text{iv}}(\xi)
+\end{align*}
+{\it where $n$ is to be an integral multiple of $3$.  Also, by considering the case when $n$ is a multiple of $6$, so that both this fule and the parabolic rule can be used with the same spacing $h$, account for the fact that the parabolic rule is nearly always preffered.} \\
+
+\noindent Let $3$ divde the integer $n$.  By the linearality of integration,
+\begin{align*}
+	\int_{x_0}^{x_n} f(x) dx &= \int_{x_0}^{x_3} f(x) dx + \int_{x_3}^{x_6} f(x) dx + \dots + \int_{x_{n-6}}^{x_{n-3}} f(x) dx + \int_{x_{n-3}}^{x_n} f(x) dx
+\end{align*}
+By using Newton's three-eighths rule on each of the subintervals,
+\begin{align*}
+	\int_{x_0}^{x_n} f(x) dx &= \left[\frac{3h}{8} (f_0 + 3f_1 + 3f_2 + f_3) - \frac{3h^5}{80}f^{\text{iv}}(\xi_0)\right] + \left[\frac{3h}{8} (f_3 + 3f_4 + 3f_5 + f_6) - \frac{3h^5}{80}f^{\text{iv}}(\xi_1)\right] \\
+	&\ \ \ \ + \dots + \left[\frac{3h}{8} (f_{n-6} + 3f_{n-5} + 3f_{n-4} + f_{n-3}) - \frac{3h^5}{80}f^{\text{iv}}(\xi_{\frac{n-6}{3}})\right] \\
+	&\ \ \ \ \ \ \ \ \ \ \ + \left[\frac{3h}{8} (f_{n-3} + 3f_{n-2} + 3f_{n-1} + f_n) - \frac{3h^5}{80}f^{\text{iv}}(\xi_{\frac{n-3}{2}})\right] \\
+	&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \text{\it (for some $\xi_k \in (x_k, x_{k+3})$)} \\
+	&= \frac{3h}{8}\left(f_0 + 3f_1 + 3f_2 + 2f_3 + \dots + 2f_{n-3} + 3f_{n-2} + 3f_{n-1} + f_n\right) \\
+	&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ - \frac{3h^5}{80}\left(f^{\text{iv}}(\xi_0) + \dots + f^{\text{iv}}(\xi_{\frac{n-3}{3}})\right) \\
+	&= \frac{3h}{8}\big(f_0 + 3f_1 + 3f_2 + 2f_3 + \dots + 2f_{n-3} + 3f_{n-2} + 3f_{n-1} + f_n\big) - \frac{nh^5}{80}f^{\text{iv}}(\xi)
+\end{align*}
+where $\xi \in (x_0, x_n)$ such that $f^{\text{iv}}(\xi) = f^{\text{iv}}(\xi_0) + \dots + f^{\text{iv}}(\xi_{\frac{n-3}{3}})$.  Note that if $f$ is continuous, than such a $\xi$ always exists.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection*{Section 3.7}
+\addcontentsline{toc}{subsection}{Section 3.7}
+
+\subsubsection*{32.}
+\addcontentsline{toc}{subsubsection}{29}
+{\it Given the following rounded values of the function}
+\begin{align*}
+	f(x) = \sqrt{\frac{2}{\pi}}\exp{\left[-\frac{x^2}{2}\right]}
+\end{align*}
+calculate approximate values of the integral
+\begin{align*}
+	P(1) = \sqrt{\frac{2}{\pi}}\int_0^1 \exp{\left[-\frac{t^2}{2}\right]}dt\ \dot{=}\ 0.6826895
+\end{align*}
+by use of the trapezoidal rule with $h = 1, \frac{1}{2}, \frac{1}{4},$ and $\frac{1}{8}$, and compare the results with the rounded true value:
+\begin{table}[H]
+    \begin{tabular}{c|ccccc}
+    	$x$ & 0.000 & 0.125 & 0.250 & 0.375 & 0.500 \\ \hline
+    	$f(x)$ & 0.7978846 & 0.7916754 & 0.7733362 & 0.7437102 & 0.7041307
+    \end{tabular} \vskip .2cm
+    \begin{tabular}{c|cccc}
+ 		$x$ & 0.625 & 0.750 & 0.875 & 1.000 \\ \hline
+ 		$f(x)$ & 0.6563219 & 0.6022749 & 0.5441100 & 0.4839414
+ 	\end{tabular}
+\end{table}
+\subsubsection*{$h = 1$:}
+\begin{align*}
+	P(1) &\approx \frac{1}{2}(f_0 + f_1)(h) \\
+	&= \frac{1}{2}(0.7978846 + 0.4839414)(1) \\
+	&\approx 0.640913 \\
+	\implies |E| &= |0.6826895 - 0.640913| \\
+	&\approx 0.0417765
+\end{align*}
+\subsubsection*{$h = \frac{1}{2}$:}
+\begin{align*}
+	P(1) &\approx \textstyle\frac{1}{2}(f_0 + 2f_{\frac{1}{2}} + f_1)(h) \\
+	&= \textstyle\frac{1}{2}(0.7978846 + 2(0.7041307) + 0.4839414)(\textstyle\frac{1}{2}) \\
+	&\approx 0.67252185 \\
+	\implies |E| &= |0.6826895 - 0.67252185| \\
+	&\approx 0.01016765
+\end{align*}
+\subsubsection*{$h = \frac{1}{4}$:}
+\begin{align*}
+	P(1) &\approx \textstyle\frac{1}{2}(f_0 + 2f_{\frac{1}{4}} + 2f_{\frac{1}{2}} + 2f_{\frac{3}{4}} + f_1)(h) \\
+	&= \textstyle\frac{1}{2}(0.7978846 + 2(0.7733362) + 2(0.7041307) + 2(0.6022749) + 0.4839414)(\textstyle\frac{1}{4}) \\
+	&\approx 0.6801637 \\
+	\implies |E| &= |0.6826895 - 0.6801637| \\
+	&\approx 0.0025258
+\end{align*}
+\subsubsection*{$h = \frac{1}{8}$:}
+\begin{align*}
+	P(1) &\approx \textstyle\frac{1}{2}(f_0 + 2f_{\frac{1}{8}} + 2f_{\frac{1}{4}} + 2f_{\frac{3}{8}} + 2f_{\frac{1}{2}} + 2f_{\frac{5}{8}} + 2f_{\frac{3}{4}} + 2f_{\frac{7}{8}} + f_1)(h) \\
+	&= \textstyle\frac{1}{2}\Big(0.7978846 + 2(0.7916754) + 2(0.7733362) + 2(0.7437102) + 2(0.7041307) \\
+	&\ \ \ \ \ \ \ + 2(0.6563219) + 2(0.6022749) + 2(0.5441100) + 0.4839414\Big)(\textstyle\frac{1}{8}) \\
+	&\approx 0.6820590375 \\
+	\implies |E| &= |0.6826895 - 0.6820590375| \\
+	&\approx 0.0006304625
+\end{align*}
+\begin{table}[H]
+	\begin{tabular}{|r|l|}\hline
+		$h$ & $|E|$ \\ \hline
+		1 & 0.0417765 \\
+		$\frac{1}{2}$ & 0.01016765 \\
+		$\frac{1}{4}$ & 0.0025258 \\
+		$\frac{1}{8}$ & 0.0006304625 \\ \hline
+	\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection*{33.}
+\addcontentsline{toc}{subsubsection}{33}
+{\it Repeat the calculations of {\bf 32.} using instead the repeated midpoint rule with $h = 1$, $\frac{1}{2}$, $\frac{1}{4}$.} \\
+
+\subsubsection*{$h = 1$:}
+\begin{align*}
+	P(1) &\approx (f_{\frac{1}{2}})(h) \\
+	&= (0.7041307)(1) \\
+	&\approx 0.7041307 \\
+	\implies |E| &= |0.6826895 - 0.7041307| \\
+	&\approx 0.0214412
+\end{align*}
+\subsubsection*{$h = \frac{1}{2}$:}
+\begin{align*}
+	P(1) &\approx (f_{\frac{1}{4}} + f_{\frac{3}{4}})(h) \\
+	&= (0.7733362 + 0.6022749)(\textstyle\frac{1}{2}) \\
+	&\approx 0.68780555 \\
+	\implies |E| &= |0.6826895 - 0.68780555| \\
+	&\approx 0.00511605
+\end{align*}
+\subsubsection*{$h = \frac{1}{4}$:}
+\begin{align*}
+	P(1) &\approx (f_{\frac{1}{8}} + f_{\frac{3}{8}} + f_{\frac{5}{8}} + f_{\frac{7}{8}})(h) \\
+	&= (0.7916754 + 0.7437102 + 0.6563219 + 0.5441100)(\textstyle\frac{1}{4}) \\
+	&\approx 0.683954375 \\
+	\implies |E| &= |0.6826895 - 0.683954375| \\
+	&\approx 0.001264875
+\end{align*}
+\begin{table}[H]
+	\begin{tabular}{|r|l|}\hline
+		$h$ & $|E|$ \\ \hline
+		1 & 0.0214412 \\
+		$\frac{1}{2}$ & 0.00511605 \\
+		$\frac{1}{4}$ & 0.001264875 \\ \hline
+	\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection*{40.}
+\addcontentsline{toc}{subsubsection}{40}
+{\it By a double application of Simpson's rule, derive the formula}
+\begin{align*}
+	\int_{x_0}^{x_2}\int_{y_0}^{y_2} f(x, y) dy dx &= \frac{hk}{9}\Big[f_{0,0} + f_{0,2} + f_{2,0} + f_{2,2} \\
+	&+ 4(f_{0,1} + f_{1,0} + f_{1,2} + f_{2,1}) + 16f_{1,1}\Big] + E
+\end{align*}
+where $x_r \equiv x_0 + rh$, $y_s \equiv sk$, and $f_{r,s} \equiv f(x_r, y_s)$, and show that
+\begin{align*}
+	E = -\frac{hk}{45}\left[h^4\frac{\partial^4f(\xi_1, \eta_1)}{\partial x^4} + k^4\frac{\partial^4f(\xi_2, \eta_2)}{\partial y^4}\right]
+\end{align*}
+where $\xi_1$, $\xi_2$ lie in $(x_0, x_2)$ and $\eta_1$, $\eta_2$ in $(y_0, y_2)$.  [More elaborate formulas for two-way integration over a rectangle ("cubature formulas") are obtainable by double application of other one-dimensional integration formulas.] \\
+
+\noindent First, we approximate the inner integral using Simpson's rule:
+\begin{align*}
+	\int_{y_0}^{y_2} f(x, y) dy &\approx \frac{k}{3}\Big(f(x, y_0) + 4f(x, y_1) + f(x, y_2)\Big) - \frac{h^5}{90}\frac{\partial^4f}{\partial y^4}(x, \eta)
+\end{align*}
+for some $\eta \in (y_0, y_2)$.  Thus,
+\begin{align*}
+	\int_{x_0}^{x_2}&\int_{y_0}^{y_2} f(x, y) dy dx \\
+	&\approx \int_{x_0}^{x_2}\left[\frac{k}{3}\Big(f(x, y_0) + 4f(x, y_1) + f(x, y_2)\Big) - \frac{k^5}{90}\frac{\partial^4f}{\partial y^4}(x, \eta)\right] dx \\
+	&\approx \underbrace{\frac{k}{3}\left[{\color{blue}\int_{x_0}^{x_2}f(x, y_0)dx} + 4{\color{red}\int_{x_0}^{x_2}f(x, y_1)dx} + {\color{cyan}\int_{x_0}^{x_2}f(x, y_2)dx}\right]}_{\color{orange}= A} - \frac{k^5}{90}{\color{ForestGreen}\int_{x_0}^{x_2}\frac{\partial^4f}{\partial y^4}(x, \eta)dx}
+\end{align*}
+{\color{blue}
+\begin{align*}
+	\int_{x_0}^{x_2}f(x, y_0)dx &\approx \frac{h}{3}\Big(f(x_0, y_0) + 4f(x_1, y_0) + f(x_2, y_0)\Big)\ {\color{black}- \frac{h^5}{90}}\ {\color{magenta}\frac{\partial^4f}{\partial x^4}(\overline{\xi_0}, y_0)}
+\end{align*}
+for some $\overline{\xi_0} \in (x_0, x_2)$.
+}
+{\color{red}
+\begin{align*}
+	\int_{x_0}^{x_2}f(x, y_1)dx &\approx \frac{h}{3}\Big(f(x_0, y_1) + 4f(x_1, y_1) + f(x_2, y_1)\Big)\ {\color{black}- \frac{h^5}{90}}\ {\color{magenta}\frac{\partial^4f}{\partial x^4}(\overline{\xi_1}, y_1)}
+\end{align*}
+for some $\overline{\xi_1} \in (x_0, x_2)$.
+}
+{\color{cyan}
+\begin{align*}
+	\int_{x_0}^{x_2}f(x, y_2)dx &\approx \frac{h}{3}\Big(f(x_0, y_2) + 4f(x_1, y_2) + f(x_2, y_2)\Big)\ {\color{black}- \frac{h^5}{90}}\ {\color{magenta}\frac{\partial^4f}{\partial x^4}(\overline{\xi_2}, y_2)}
+\end{align*}
+for some $\overline{\xi_2} \in (x_0, x_2)$.
+}
+Thus,
+\begin{align*}
+	{\color{orange}A} = \frac{hk}{9}\Big[(f_{0,0} + f_{0,2} + f_{2,0} + f_{2,2}) + 4(f_{1,0} + f_{0,1} + f_{2,1} + f_{1,2}) + 16f_{1,1}\Big] \\
+	- \frac{kh^5}{270}{\color{magenta}\left(\frac{\partial^4f}{\partial x^4}(\overline{\xi_0}, y_0) + {\color{black}4}\frac{\partial^4f}{\partial x^4}(\overline{\xi_1}, y_1) + \frac{\partial^4f}{\partial x^4}(\overline{\xi_2}, y_2)\right)}
+\end{align*}
+By theorem 2 on page 32, $\exists \xi_1 \in (x_0, x_2)$, $\eta_1 \in (y_0, y_2)$ such that
+{\color{magenta}
+\begin{align*}
+	\left(\frac{\partial^4f}{\partial x^4}(\overline{\xi_0}, y_0) + {\color{black}4}\frac{\partial^4f}{\partial x^4}(\overline{\xi_1}, y_1) + \frac{\partial^4f}{\partial x^4}(\overline{\xi_2}, y_2)\right) &= 6\frac{\partial^4f}{\partial x^4}(\xi_1, \eta_1)
+\end{align*}
+}
+Thus,
+\begin{align*}
+	{\color{orange}A} = \frac{hk}{9}\Big[(f_{0,0} + f_{0,2} + f_{2,0} + f_{2,2}) + 4(f_{1,0} + f_{0,1} + f_{2,1} + f_{1,2}) + 16f_{1,1}\Big] - \frac{kh^5}{45}\frac{\partial^4f}{\partial x^4}(\xi_1, \eta_1)
+\end{align*}
+Also, by the First Law of the Mean, $\exists \xi_2 \in (x_0, x_2)$, $\eta_2 \in (y_0, y_2)$ such that
+{\color{ForestGreen}
+\begin{align*}
+	\int_{x_0}^{x_2}\frac{\partial^4f}{\partial y^4}(x, \eta)dx = 2k\frac{\partial^4f}{\partial y^4}(\xi_2, \eta_2)
+\end{align*}
+}
+Thus,
+\begin{align*}
+	\int_{x_0}^{x_2}&\int_{y_0}^{y_2} f(x, y) dy dx \\
+	&= {\color{orange}A} - \frac{k^5}{90}{\color{ForestGreen}\left[2k\frac{\partial^4f}{\partial y^4}(\xi_2, \eta_2)\right]} \\
+	&= \frac{hk}{9}\Big[f_{0,0} + f_{0,2} + f_{2,0} + f_{2,2} + 4(f_{0,1} + f_{1,0} + f_{1,2} + f_{2,1}) + 16f_{1,1}\Big] \\
+	&\ \ \ \ \ \ \ \ - \frac{hk}{45}\left[h^4\frac{\partial^4f(\xi_1, \eta_1)}{\partial x^4} + k^4\frac{\partial^4f(\xi_2, \eta_2)}{\partial y^4}\right]
+\end{align*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
