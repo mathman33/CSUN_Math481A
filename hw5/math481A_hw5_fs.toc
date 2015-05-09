@@ -1,0 +1,2 @@
+\contentsline {section}{Chapter 3}{2}{section*.2}
+\contentsline {subsection}{Section 3.6}{2}{section*.3}
